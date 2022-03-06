@@ -1,20 +1,103 @@
 <!DOCTYPE html>
+
 {% load staticfiles %}
 
 <html>
     <head lang="en">
         <meta charset="UTF-8" />
+        <script src="iconfont.js"></script>
+        <style>
+            body{
+                height: 100%;
+                width: 100%;
+            }
+
+            a{
+                text-decoration:none;
+            }
+
+            a:visited {
+            color:#000000;
+            text-decoration:none;
+            }
+
+            a:hover {
+            color:rgb(8, 157, 184);
+            text-decoration:none;
+            }
+
+            .menu {
+                display: flex;
+                width: 100%;
+                height: 40px;
+                flex-direction: row;
+                list-style:none;
+            }
+
+            #menu-left {
+                width: 70%;
+                height: 100%;
+            }
+
+            #menu-right {
+                display: flex;
+                width: 30%;
+                height: 100%;
+                flex-direction: row;
+                margin-top: 10px;
+            }
+
+            .flex-item {
+                width: 120px;
+                height: 80%;
+                padding-top: 10px;
+                border: solid 1px black;
+                text-align:center;
+                border-radius:10px 10px 0 0;
+            }
+		</style>
         <title>
             {% block title_block %}
-                
+                w[]rdle
             {% endblock %}
         </title>
     </head>
     <body>
+        <div class="menu">
+            <div id="menu-left">
+                <img src="{% static 'images/question.png' %}" alt="How to play wordle!" 
+                style = "width: 20px; height: 20px;margin-left: 20%;"/> 
+                <span style="font-size: 40px; color: rgb(8, 157, 184); margin-left: 1%;">w[&nbsp;]rdle</span>
+            </div>
+            <div id="menu-right">
+                
+                <div class="flex-item"><a href="#">Game</a></div> 
+                <div class="flex-item"><a href="#">Learderboard</a></div>
+                {% if user.is_authenticated %}
+                <!-- Show these links when the user is logged in -->              
+                <div class="flex-item"><a href="#">UserProfile</a></div>
+                <div class="flex-item"><a href="{% url 'wordgame:logout' %}">Logout</a></div>
+                {% else %}
+                <!-- Show these links when the user is NOT logged in -->
+                <!-- <div><a href="{% url 'wordgame:register' %}">Sign Up</a></div> -->
+                <div class="flex-item"><a href="{% url 'wordgame:login' %}">Login</a></div>
+                {% endif %}               
+                
+            </div>
+        </div>
+        
+        
         <div>
             {% block body_block %}
             
             {% endblock %}
         </div>
+        
+        
     </body>
 </html>
+
+
+<style> 
+
+</style>

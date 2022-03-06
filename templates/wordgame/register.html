@@ -1,0 +1,22 @@
+{% extends 'wordgame/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Register
+{% endblock %}
+
+{% block body_block %}
+    <h1>Register for w[...]rdle</h1>
+    {% if registered %}
+        <strong>thank you for registering!</strong>
+        <a href="{% url 'wordgame:index' %}">Return to the homepage.</a><br />
+    {% else %}
+        <strong>register here!</strong><br />
+        <form id="user_form" method="post" action="{% url 'wordgame:register' %}"enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ user_form.as_p }}
+            <!-- Provide a button to click to submit the form. -->
+            <input type="submit" name="submit" value="Create Account" />
+        </form>
+    {% endif %}
+{% endblock %}
