@@ -8,8 +8,9 @@
         <meta charset="UTF-8" />
         
         <title>
+            w[]rdle - 
             {% block title_block %}
-                w[]rdle
+                Game
             {% endblock %}
         </title>
     </head>
@@ -23,7 +24,7 @@
             <div id="menu-right">
                 
                 <div class="flex-item"><a href="#">Game</a></div> 
-                <div class="flex-item"><a href="#">Learderboard</a></div>
+                <div class="flex-item"><a href="{% url 'wordgame:leaderboard' %}">Learderboard</a></div>
                 {% if user.is_authenticated %}
                 <!-- Show these links when the user is logged in -->              
                 <div class="flex-item"><a href="#">UserProfile</a></div>

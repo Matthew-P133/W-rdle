@@ -1,0 +1,20 @@
+{% extends 'wordgame/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+Leaderboard
+{% endblock %}
+
+{% block body_block %}
+    {% if Scoreboard %}
+    <ul>
+        {% for Score in Scoreboard %}
+        <li>
+            <a href="{% url 'wordgame:show_learderboard' %}">{{ Score.user.username }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+        <strong>Failed to load database...</strong>
+    {% endif %}
+{% endblock %}

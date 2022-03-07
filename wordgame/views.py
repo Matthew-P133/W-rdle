@@ -5,11 +5,13 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login,logout
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from .models import Score
 
 # Create your views here.
 
 def index(request):
     return render(request, 'wordgame/index.html')
+
 def register(request):
     registered = False
     if request.method == 'POST': 
@@ -54,3 +56,20 @@ def user_logout(request):
     logout(request)
     # Take the user back to the homepage.
     return redirect(reverse('wordgame:index'))
+
+def learderboard(request):
+#     visitor_cookie_handler(request)
+    list = ['-score', 'correct_rate', 'time_cost']
+    Scoreboard = Score.objects.filter(visible = True).order_by(*list)
+    return render(request, 'wordgame/leaderboard.html', {'Scoreboard': Scoreboard})
+
+def show_learderboard(request):
+    context_dict = {}
+
+    try:
+        score = Score.objects.get()
+        context_dict['score'] = score
+    except Score.DoesNotExist:
+        context_dict['score'] = None
+    return render(request, 'wordgame/leaderboard.html', context=context_dict)
+
