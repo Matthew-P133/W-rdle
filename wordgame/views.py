@@ -37,10 +37,9 @@ def user_login(request):
                 login(request, user)
                 return redirect(reverse('wordgame:game'))
             else:
-                return HttpResponse("Your wordgame account is disabled.")
+                return render(request,'wordgame/login.html',{'msg':'Your wordgame account is disabled.'})
         else:
-            print(f"Invalid login details: {username}, {password}")
-            return HttpResponse("Invalid login details supplied.")
+            return render(request,'wordgame/login.html',{'msg':'Wrong username or password.'})
     else:
         return render(request, 'wordgame/login.html')
 

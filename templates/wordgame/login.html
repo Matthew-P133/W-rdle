@@ -1,18 +1,122 @@
 {% extends 'wordgame/base.html' %}
 {% load staticfiles %}
 
+{% block head_block %}
+<style>
+  
+
+
+#contain{
+display: block;
+position: fixed;
+top: 0;
+left: 0;width: 100%;
+height: 100%;
+}
+#contain-login{
+    display: block;
+    position: fixed;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 666px;
+    height:400px;
+    margin-left: -333px;
+    margin-top: -200px;  
+    box-shadow: 2px 2px 4px #A0A0A0, -2px -2px 4px #A0A0A0;
+    background-color: #fff;
+}
+#login_top{
+    display: block;
+    position: relative;
+    top: 10%;
+    left: 25%;
+    width: 333px;
+    height:200px;
+}
+#notice{
+    display: flex;
+    width: 100%;
+    margin-top:15px;
+    font-size: 13px;
+    height:20px;
+}
+#remember{
+    width: 50%;
+}
+#resetPsw{
+    width: 50%;
+    text-align: right;
+}
+#login_form{
+    text-align: center;
+}
+
+h1{
+    text-align: center;
+}
+
+#login_click{ 
+    height:30px;
+    width:150px;
+}
+
+#msg{
+    height:11px;
+    text-align: center;
+    color: red;
+    font-size: 11px;
+    margin-top: 10px;
+}
+
+
+#login_bottom{
+    text-align: center;
+    font-size: 13px;
+    height:20px;
+    margin-top: 30px;
+}
+</style>       
+{% endblock %}
+
 {% block title_block %}
     Login
 {% endblock %}
 
 {% block body_block %}
-    <h1>Login to wordgame</h1> 
-    <form id="login_form" method="post" action="{% url 'wordgame:login' %}">
-        {% csrf_token %}
-        Username: <input type="text" name="username" value="" size="50" />
-        <br />
-        Password: <input type="password" name="password" value="" size="50" />
-        <br />
-        <input type="submit" value="submit" />
-    </form>
+    <div id = "contain">
+        
+        <div id = "contain-login">
+            <h1>Login to w[&nbsp;]rdle !</h1> 
+            <div id="login_top">
+                <form id="login_form" method="post" action="{% url 'wordgame:login' %}">
+                    {% csrf_token %}
+                    <div class="form-content">
+                        Username: <input type="text" name="username" value="" size="30" />
+                    </div> 
+                    <br /><br />
+                    <div class="form-content">
+                        Password: <input type="password" name="password" value="" size="30" />
+                    </div> 
+                    <br /><br />
+                    <input id="login_click" type="submit" value="login" />
+                </form>
+                <div id="msg">{{ msg }}</div>
+                <div id="notice">
+                    <div id="remember">
+                        Remember me
+                    </div>
+                    <div id="resetPsw">
+                        Forgot Password
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+            <div id="login_bottom"><span>Don't have an account? </span><a style="margin-left:10px ;color: rgb(98, 152, 253);" href="{% url 'wordgame:register' %}">Create Account</a></div>
+        </div>
+        
+    </div>
+    
 {% endblock %}
+

@@ -4,9 +4,11 @@
 
 <html>
     <head lang="en">
-        <link rel="stylesheet" type="text/css" href="../../static/style/baseCss.css" charset="utf-8"/>
         <meta charset="UTF-8" />
-        
+        <link rel="stylesheet" type="text/css" href="../../static/style/baseCss.css" charset="utf-8"/>
+        {% block head_block %}
+
+        {% endblock %}
         <title>
             w[]rdle - 
             {% block title_block %}
@@ -36,15 +38,11 @@
                 {% endif %}               
                 
             </div>
-        </div>
-        
-        
-        <div>
+        </div>       
+        <div class="main-contain">
             {% block body_block %}
             
             {% endblock %}
-        </div>
-        
-        
+        </div> 
     </body>
 </html>
