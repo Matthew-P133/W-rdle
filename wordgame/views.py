@@ -5,12 +5,12 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login,logout
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import Score
+from wordgame.models import Statistics
 
 # Create your views here.
 
-def index(request):
-    return render(request, 'wordgame/index.html')
+def game(request):
+    return render(request, 'wordgame/game.html')
 
 def register(request):
     registered = False

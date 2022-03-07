@@ -1,32 +1,48 @@
 import os
-
-from django import views
-os.environ.setdefault('DJANGO_SETTINGS_MODULE',
-                    'ITECH_Word_Game.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ITECH_Word_Game.settings')
 
 import django
 django.setup()
-from wordgame.models import Score
+
+from django.contrib.auth.models import User
+from django import views
+
+import django
+django.setup()
+from wordgame.models import Statistics, UserProfile
 
 def populate():
 
-    NPCs = [
-        {'Tom':{'score': 100, 'correct_rate': 100, 'time_cost': 100, }},
-        {'Jerry':{'score': 99, 'correct_rate': 99, 'time_cost': 99, }},
-        {'Mario':{'score': 98, 'correct_rate': 98, 'time_cost': 98, }},
-        {'Bowser':{'score': 97, 'correct_rate': 97, 'time_cost': 97, }},]
+    # players to populate database with
+    players = {
+        'Tom':{'score': 100, 'correct_rate': 100, 'time_cost': 100},
+        'Jerry':{'score': 99, 'correct_rate': 99, 'time_cost': 99},
+        'Mario':{'score': 98, 'correct_rate': 98, 'time_cost': 98},
+        'Bowser':{'score': 97, 'correct_rate': 97, 'time_cost': 97}}
 
-    for u, user_data in NPCs():
-        add_user(u, user_data['score'], user_data['correct_rate'], user_data['time_cost'])
-        
+    for player, player_data in players.items():
+        add_statistics(player, player_data.get('score'), player_data.get('correct_rate'), player_data.get('time_cost'))
+    
 
-def add_user(u, score, correct_rate, time_cost):
-    p = Score.objects.get_or_create(username=u)[0]
-    p.score=score
-    p.correct_rate=correct_rate
-    p.time_cost=time_cost
-    p.save()
-    return p
+def add_statistics(user, score, correct_rate, time_cost):
+
+    # create user
+    new_user = User.objects.get_or_create(username=user,
+                                 email='example.com',
+                                 password='passw0rd')[0]
+    new_user.save()
+
+    # create their user profile
+    profile = UserProfile.objects.get_or_create(user=new_user)[0]
+    profile.save()
+
+    # create statistics for user
+    new_statistics = Statistics.objects.get_or_create(user=new_user)[0]
+    new_statistics.score=score
+    new_statistics.correct_rate=correct_rate
+    new_statistics.time_cost=time_cost
+    new_statistics.save()
+    return new_statistics
 
 # Start execution here!
 if __name__ == '__main__':

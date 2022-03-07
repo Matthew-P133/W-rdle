@@ -18,7 +18,6 @@ from django.urls import path, include
 from wordgame import views
 
 urlpatterns = [
-    path('', views.index, name='index'),
     path('wordgame/', include('wordgame.urls')),
     path('admin/', admin.site.urls),
 ]
