@@ -30,8 +30,7 @@ class Statistics(models.Model):
         verbose_name_plural = 'Statistics'
 
 class Challenge(models.Model):
-    challengeID = models.IntegerField(unique=True)
-    word = models.CharField(max_length=10, unique=True)
+    word = models.CharField(max_length=10, unique=True, primary_key=True)
     timesPlayed = models.IntegerField(default=0)
     successes = models.IntegerField(default=0)
     failures = models.IntegerField(default=0)
@@ -39,8 +38,8 @@ class Challenge(models.Model):
 
 
 class Game(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    challengeID = models.ForeignKey(Challenge, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE)
     guesses = models.IntegerField(default=0)
     successful = models.BooleanField(default=False)
 

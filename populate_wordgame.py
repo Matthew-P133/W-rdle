@@ -9,7 +9,7 @@ from django import views
 
 import django
 django.setup()
-from wordgame.models import Statistics, UserProfile
+from wordgame.models import Statistics, UserProfile, Challenge
 
 def populate():
 
@@ -22,6 +22,16 @@ def populate():
 
     for player, player_data in players.items():
         add_statistics(player, player_data.get('score'), player_data.get('games_played'), player_data.get('win_streak'), player_data.get('games_won'), player_data.get('games_lost'))
+    
+    challenges = [
+        {'word':'WORD','word_length':4},
+        {'word':'BOOK','word_length':4},
+        {'word':'WORM','word_length':4},
+        {'word':'FOOD','word_length':4},
+    ]
+
+    for challenge in challenges:
+        add_challenge(challenge.get('word'), challenge.get('word_length'))
     
 
 def add_statistics(user, score, games_played, win_streak, games_won, games_lost):
@@ -46,6 +56,11 @@ def add_statistics(user, score, games_played, win_streak, games_won, games_lost)
     new_statistics.games_won = games_won
     new_statistics.save()
     return new_statistics
+
+def add_challenge(word, word_length):
+    challenge = Challenge.objects.get_or_create(word=word, word_length=word_length)[0]
+    challenge.save()
+    return challenge
 
 # Start execution here!
 if __name__ == '__main__':
