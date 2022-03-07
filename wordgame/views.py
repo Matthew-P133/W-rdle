@@ -35,7 +35,7 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request, user)
-                return redirect(reverse('wordgame:index'))
+                return redirect(reverse('wordgame:game'))
             else:
                 return HttpResponse("Your wordgame account is disabled.")
         else:
@@ -55,21 +55,21 @@ def user_logout(request):
     # Since we know the user is logged in, we can now just log them out.
     logout(request)
     # Take the user back to the homepage.
-    return redirect(reverse('wordgame:index'))
+    return redirect(reverse('wordgame:game'))
 
 def learderboard(request):
 #     visitor_cookie_handler(request)
     list = ['-score', 'correct_rate', 'time_cost']
-    Scoreboard = Score.objects.filter(visible = True).order_by(*list)
+    Scoreboard = Statistics.objects.filter(visible = True).order_by(*list)
     return render(request, 'wordgame/leaderboard.html', {'Scoreboard': Scoreboard})
 
 def show_learderboard(request):
     context_dict = {}
 
     try:
-        score = Score.objects.get()
+        score = Statistics.objects.get()
         context_dict['score'] = score
-    except Score.DoesNotExist:
+    except Statistics.DoesNotExist:
         context_dict['score'] = None
     return render(request, 'wordgame/leaderboard.html', context=context_dict)
 

@@ -8,9 +8,9 @@ Leaderboard
 {% block body_block %}
     {% if Scoreboard %}
     <ul>
-        {% for Score in Scoreboard %}
+        {% for Statistic in Scoreboard %}
         <li>
-            <a href="{% url 'wordgame:show_learderboard' %}">{{ Score.user.username }}</a>
+            <a href="{% url 'wordgame:show_learderboard' %}">{{ Statistic.user.username }}</a>
         </li>
         {% endfor %}
     </ul>

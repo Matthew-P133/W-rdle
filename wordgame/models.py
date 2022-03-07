@@ -17,12 +17,14 @@ class UserProfile(models.Model):
 class Statistics(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
     score = models.IntegerField(default=0)
-    correct_rate = models.IntegerField(default=0)
-    time_cost = models.IntegerField(default=0)
+    games_played = models.IntegerField(default=0)
+    games_won = models.IntegerField(default=0)
+    games_lost = models.IntegerField(default=0)
+    win_streak = models.IntegerField(default=0)
     visible = models.BooleanField(default=True)
 
     def __str__(self):
-        return f'{self.user.username} ({self.score})({self.correct_rate})({self.time_cost})'
+        return f'{self.user.username} ({self.score})({self.games_played})({self.games_won})'
 
     class Meta:
         verbose_name_plural = 'Statistics'
