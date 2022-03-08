@@ -7,5 +7,17 @@
 {% endblock %}
 
 {% block body_block %}
-    This is the game
+    
+    
+    
+    <h4>Word to be guessed: {{ challenge.word }}</h4>
+
+    <br><br>
+    TODO
+    
+
+{% endblock %}
+
+{% block page_scripts %}
+    <script src="{% static "js/game.js" %}" crossorigin="anonymous"></script>
 {% endblock %}

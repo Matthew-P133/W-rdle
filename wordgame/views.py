@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login,logout
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from wordgame.models import Statistics
+from wordgame.models import Challenge, Statistics
 
 # Create your views here.
 
@@ -71,4 +71,13 @@ def show_learderboard(request):
     except Statistics.DoesNotExist:
         context_dict['score'] = None
     return render(request, 'wordgame/leaderboard.html', context=context_dict)
+
+
+def game(request):
+    
+    challenge = Challenge.objects.all()[0]
+
+    context_dict = {'challenge': challenge}
+
+    return render(request, 'wordgame/game.html', context=context_dict)
 

@@ -44,5 +44,11 @@
             
             {% endblock %}
         </div> 
+
+        <!-- all templates should inherit jquery.js-->
+        <script src="{% static "js/jquery-3.3.1.min.js" %}" crossorigin="anonymous"></script>
+        {% block page_scripts %} 
+            <!--empty block to allow placement of specific js scripts in relevant templates-->
+        {% endblock %}
     </body>
 </html>

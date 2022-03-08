@@ -19,5 +19,6 @@ from wordgame import views
 
 urlpatterns = [
     path('wordgame/', include('wordgame.urls')),
+    path('', views.game, name='game'),
     path('admin/', admin.site.urls),
 ]
