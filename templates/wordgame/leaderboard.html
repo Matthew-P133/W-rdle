@@ -1,20 +1,31 @@
 {% extends 'wordgame/base.html' %}
 {% load staticfiles %}
 
+{% block head_block %}
+<link rel="stylesheet" type="text/css" href="../../static/style/leaderboardCss.css" charset="utf-8"/>
+{% endblock %}
+
 {% block title_block %}
 Leaderboard
 {% endblock %}
 
 {% block body_block %}
-    {% if Scoreboard %}
-    <ul>
-        {% for Statistic in Scoreboard %}
-        <li>
-            <a href="{% url 'wordgame:show_learderboard' %}">{{ Statistic.user.username }}</a>
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
+    <div id = "contain">
+        <div id = "set_background"> </div>
+        <div id = "contain-leaderboard">
+        {% if Scoreboard %}
+        <h1 align="center">Leaderboard</h1>
+        <ul>
+            <li>
+                <a href="{% url 'wordgame:leaderboard' %}">{{ Statistic.user.username }}</a>
+            </li>
+        </ul>
+        {% else %}
         <strong>Failed to load database...</strong>
-    {% endif %}
+        {% endif %}
+        </div>
+    </div>
+    
+        
+    
 {% endblock %}

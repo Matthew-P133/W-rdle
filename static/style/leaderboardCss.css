@@ -1,0 +1,110 @@
+html{
+    overflow-x:hidden;
+    overflow-y:hidden;     
+}
+.flex-item {
+    background-color: #fff;
+}
+
+#base_leaderboard {
+    background-color:rgb(8, 157, 184);
+}
+
+#base_leaderboard a{
+    color:white;
+} 
+
+#contain{
+    width: 98%;
+    height: 100%;
+}
+
+#set_background{
+    display: block;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/background.jpg");
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    -webkit-filter: blur(3px);
+    filter: blur(4px);
+}
+
+#contain-leaderboard{
+    display: block;
+    position: fixed;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 999px;
+    height:666px;
+    margin-left: -450px;
+    margin-top: -300px;  
+    box-shadow: 2px 2px 4px #A0A0A0, -2px -2px 4px #A0A0A0;
+    background-color: #fff;
+    z-index: 1113;
+}
+
+/* #login_top{
+    display: block;
+    position: relative;
+    top: 10%;
+    left: 25%;
+    width: 333px;
+    height:200px;
+    font-size: 16px;
+}
+
+#notice{
+    display: flex;
+    width: 100%;
+    margin-top:15px;
+    font-size: 13px;
+    height:20px;
+}
+
+#remember{
+    width: 50%;
+}
+
+#login_form{
+    text-align: center;
+}
+
+h1{
+    text-align: center;
+}
+
+#login_click{ 
+    height:30px;
+    width:150px;
+    background-color:rgb(8, 157, 184) ;
+    border-radius: 5px 5px 5px 5px;
+    color: #fff;
+    font-size: 16px;
+}
+
+#login_click:hover{
+    background-color:#fff ;
+    color:rgb(8, 157, 184) ;
+    cursor:pointer;
+}
+
+#msg{
+    height:11px;
+    text-align: center;
+    color: red;
+    font-size: 11px;
+    margin-top: 10px;
+}
+
+#login_bottom{
+    text-align: center;
+    font-size: 13px;
+    height:20px;
+    margin-top: 30px;
+} */

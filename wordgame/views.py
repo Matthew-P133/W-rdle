@@ -56,21 +56,20 @@ def user_logout(request):
     # Take the user back to the homepage.
     return redirect(reverse('wordgame:game'))
 
-def learderboard(request):
-#     visitor_cookie_handler(request)
-    list = ['-score', 'correct_rate', 'time_cost']
+def leaderboard(request):
+    list = ['-score', 'games_played', 'games_won']
     Scoreboard = Statistics.objects.filter(visible = True).order_by(*list)
     return render(request, 'wordgame/leaderboard.html', {'Scoreboard': Scoreboard})
 
-def show_learderboard(request):
-    context_dict = {}
+# def show_leaderboard(request):
+#     context_dict = {}
 
-    try:
-        score = Statistics.objects.get()
-        context_dict['score'] = score
-    except Statistics.DoesNotExist:
-        context_dict['score'] = None
-    return render(request, 'wordgame/leaderboard.html', context=context_dict)
+#     try:
+#         score = Statistics.objects.get()
+#         context_dict['score'] = score
+#     except Statistics.DoesNotExist:
+#         context_dict['score'] = None
+#     return render(request, 'wordgame/leaderboard.html', context=context_dict)
 
 
 def game(request):

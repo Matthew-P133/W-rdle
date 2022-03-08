@@ -26,7 +26,7 @@
             <div id="menu-right">
                 
                 <div class="flex-item"><a href="{% url 'wordgame:game' %}">Game</a></div> 
-                <div class="flex-item"><a href="{% url 'wordgame:leaderboard' %}">Learderboard</a></div>
+                <div class="flex-item" id="base_leaderboard"><a href="{% url 'wordgame:leaderboard' %}">Leaderboard</a></div>
                 {% if user.is_authenticated %}
                 <!-- Show these links when the user is logged in -->              
                 <div class="flex-item"><a href="#">UserProfile</a></div>
