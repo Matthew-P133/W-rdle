@@ -1,11 +1,16 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.shortcuts import render,redirect
+from django.views.generic import FormView, UpdateView
+
 from wordgame.forms import UserForm
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.contrib.auth import authenticate, login,logout
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from wordgame.models import Challenge, Statistics
+from .forms import UserProfileForm
 
 # Create your views here.
 
@@ -80,3 +85,39 @@ def game(request):
 
     return render(request, 'wordgame/game.html', context=context_dict)
 
+class UserProfileView(LoginRequiredMixin, UpdateView):
+    form_class = UserProfileForm
+    template_name = 'wordgame/userprofile.html'
+    model = User
+    success_url = reverse_lazy('wordgame:userprofile')
+
+    def get_object(self, queryset=None):
+        instance = self.request.user
+        if self.request.method == 'GET':
+            instance.password = None
+        return instance
+
+    def get_initial(self):
+        initial = super(UserProfileView, self).get_initial()
+        initial['photo'] = self.request.user.userprofile.photo
+        initial['sex'] = self.request.user.userprofile.sex
+        return initial
+
+    def form_valid(self, form):
+        # print(self.request.method)
+        self.request.user.refresh_from_db()
+        o_password = self.request.user.password
+        instance = form.save(commit=False)
+        print(form.cleaned_data)
+        if not form.cleaned_data['password']:
+            instance.password = o_password
+        else:
+            instance.set_password(form.cleaned_data['password'])
+        instance.email = form.cleaned_data['email']
+        instance.username = form.cleaned_data['username']
+        instance.save()
+        profile = self.request.user.userprofile
+        profile.sex = form.cleaned_data['sex']
+        profile.photo = form.cleaned_data['photo']
+        profile.save()
+        return redirect(self.get_success_url())

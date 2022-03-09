@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'wordgame'
+    'wordgame',
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -127,3 +128,5 @@ LOGIN_URL = 'wordgame:login'
 
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

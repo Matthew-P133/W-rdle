@@ -5,11 +5,15 @@ from django.contrib.auth.models import User
 
 
 class UserProfile(models.Model):
+    SEX_CHOICES = (
+        (0, 'man'),
+        (1, 'woman')
+    )
     # This line is required. Links UserProfile to a User model instance.
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # The additional attributes we wish to include.
-
-    
+    photo = models.ImageField(upload_to='photots', null=True, blank=True)
+    sex = models.IntegerField(choices=SEX_CHOICES, null=True, blank=True)
 
     def __str__(self):
         return self.user.username
@@ -47,9 +51,3 @@ class Game(models.Model):
 
     def __str__(self):
         return f'Game #{self.challengeID} played by {self.user.username}'
-
-
-
-
-
-        

@@ -10,4 +10,5 @@ urlpatterns = [
     path('restricted/', views.restricted, name='restricted'),
     path('logout/', views.user_logout, name='logout'),
     path('leaderboard/', views.leaderboard, name='leaderboard'),
+    path('userprofile/', views.UserProfileView.as_view(), name='userprofile')
 ]

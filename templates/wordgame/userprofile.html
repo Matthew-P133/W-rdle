@@ -1,0 +1,119 @@
+{% extends 'wordgame/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title_block %}
+UserProfile
+{% endblock %}
+
+{% block body_block %}
+    <div class="container" style="margin-top: 50px">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#admin" role="tab" aria-controls="home"
+               aria-selected="true">
+                <h6>User center</h6>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#edit" role="tab" aria-controls="profile"
+               aria-selected="false">
+                <h6>User statistics</h6>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content border border-top-0" id="myTabContent" >
+        <div class="tab-pane fade show active" id="admin" role="tabpanel" aria-labelledby="home-tab">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div style="display: flex">
+                        <div style="width: 60%">
+                            <form action="" method="post" enctype="multipart/form-data"> {% csrf_token %}
+                                {{ form|crispy }}
+                                <button class="btn btn-primary">Update</button>
+                            </form>
+                        </div>
+                        <div style="width: 5%">
+
+                        </div>
+                        <div style="width: 35%;font-size: 18px;font-weight: bold">
+                            Avatar
+                            <hr>
+                            {% if request.user.userprofile.photo %}
+                                <img src="{{ request.user.userprofile.photo.url }}" alt="" style="max-width: 100%">
+                            {% endif %}
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="tab-pane fade" id="edit" role="tabpanel" aria-labelledby="profile-tab">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-3">
+                            Played
+                        </div>
+                        <div class="col-md-3">
+                            87
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+                            Score
+                        </div>
+                        <div class="col-md-3">
+                            87
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+                            Ranking
+                        </div>
+                        <div class="col-md-3">
+                            87
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+                            Win
+                        </div>
+                        <div class="col-md-3">
+                            87
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+                            Played
+                        </div>
+                        <div class="col-md-3">
+                            87
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+                            Win/Loss ratio
+                        </div>
+                        <div class="col-md-3">
+                            87
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+                            Average number of guesses
+                        </div>
+                        <div class="col-md-3">
+                            87
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </div>
+{% endblock %}
