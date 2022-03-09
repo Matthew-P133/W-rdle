@@ -1,6 +1,6 @@
 certifi==2021.10.8
 Django==2.1.5
+django-crispy-forms==1.14.0
 olefile==0.46
 Pillow==5.4.1
 pytz==2021.3
-pip install django-crispy-forms
