@@ -9,11 +9,28 @@
 {% block body_block %}
     
     
-    
-    <h4>Word to be guessed: {{ challenge.word }}</h4>
+    <div id="contain">  
+        <br><br><br><br>  
+        <h4 id="guesses" align="center"></h4>
+    </div>
 
-    <br><br>
-    TODO
+
+    <div id class="d-flex justify-content-center">
+        <form id="check form">
+            Enter guess
+            <input type="text" id="guess" name="guess" value="GUESS">
+
+            <button id="check_btn"
+            data-word="{{ challenge.word }}"
+            class="btn btn-primary btn-sm"
+            type="button">
+            Check
+            </button>
+        </form>
+        
+    </div>
+    <p align="center">(To help with testing, the word is: {{ challenge.word }})</p>
+
     
 
 {% endblock %}

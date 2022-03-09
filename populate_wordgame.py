@@ -25,6 +25,7 @@ def populate():
     
     challenges = [
         {'word':'WORD','word_length':4},
+        {'word':'PROGRAM','word_length':7},
         {'word':'BOOK','word_length':4},
         {'word':'WORM','word_length':4},
         {'word':'FOOD','word_length':4},

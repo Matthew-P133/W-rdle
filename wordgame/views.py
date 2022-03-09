@@ -1,8 +1,9 @@
+from itertools import zip_longest
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.shortcuts import render,redirect
-from django.views.generic import FormView, UpdateView
+from django.views.generic import FormView, UpdateView, View
 
 from wordgame.forms import UserForm
 from django.urls import reverse, reverse_lazy
@@ -11,6 +12,8 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from wordgame.models import Challenge, Statistics
 from .forms import UserProfileForm
+
+from itertools import zip_longest
 
 # Create your views here.
 
@@ -79,7 +82,8 @@ def leaderboard(request):
 
 def game(request):
     
-    challenge = Challenge.objects.all()[0]
+    # the challenge being passed to the game page is currently hard coded - TODO
+    challenge = Challenge.objects.get(word='PROGRAM')
 
     context_dict = {'challenge': challenge}
 
@@ -121,3 +125,29 @@ class UserProfileView(LoginRequiredMixin, UpdateView):
         profile.photo = form.cleaned_data['photo']
         profile.save()
         return redirect(self.get_success_url())
+
+class CheckGuessView(View):
+    def get(self, request):
+        word = request.GET['word']
+        guess = request.GET['guess']
+
+        try:
+            challenge = Challenge.objects.get(word=word)
+        except Challenge.DoesNotExist:
+            return HttpResponse(-1)
+        except ValueError:
+            return HttpResponse(-1)
+
+        output = ''
+
+        for pair in zip_longest(word, guess):
+            if pair[0] == pair[1]:
+                output = output + f'<span style="color:green">{pair[1]}</span>'
+            else:
+                if (pair[1] and pair[1] in word):
+                    output = output + f'<span style="color:yellow">{pair[1]}</span>'
+                else:
+                    if (pair[1]):
+                        output = output + f'<span style="color:grey">{pair[1]}</span>'
+
+        return HttpResponse(output)
