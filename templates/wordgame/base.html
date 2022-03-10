@@ -36,7 +36,7 @@
                     </li>
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link"  href="#">UserProfile</a>
+                        <a class="nav-link"  href="{% url 'wordgame:userprofile' %}">{% if request.user.is_authenticated %}{{ request.user.username }}{% else %}UserProfile{% endif %}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"  href="{% url 'wordgame:logout' %}">Logout</a>
