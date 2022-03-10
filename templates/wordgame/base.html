@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-
 {% load staticfiles %}
-
 <html>
     <head lang="en">
         <meta charset="UTF-8" />
-        <link rel="stylesheet" type="text/css" href="../../static/style/baseCss.css" charset="utf-8"/>
         <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+         <link rel="stylesheet" type="text/css" href="../../static/style/baseCss.css" charset="utf-8"/>
         <script src="/static/jquery/jquery.min.js"></script>
+        <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
         <script src="/static/bootstrap/js/bootstrap.min.js"></script>
         {% block head_block %}
 
@@ -20,37 +19,44 @@
         </title>
     </head>
     <body>
-        <div class="menu">
-            <div id="menu-left">
-                <img src="{% static 'images/question.png' %}" alt="How to play wordle!" 
-                style = "width: 20px; height: 20px;margin-left: 20%;"/> 
-                <span style="font-size: 40px; color: rgb(8, 157, 184); margin-left: 1%;">w[&nbsp;]rdle</span>
-            </div>
-            <div id="menu-right">
-                
-                <div class="flex-item"><a href="{% url 'wordgame:game' %}">Game</a></div> 
-                <div class="flex-item" id="base_leaderboard"><a href="{% url 'wordgame:leaderboard' %}">Leaderboard</a></div>
-                {% if user.is_authenticated %}
-                <!-- Show these links when the user is logged in -->              
-                <div class="flex-item"><a href="#">UserProfile</a></div>
-                <div class="flex-item"><a href="{% url 'wordgame:logout' %}">Logout</a></div>
-                {% else %}
-                <!-- Show these links when the user is NOT logged in -->
-                <!-- <div><a href="{% url 'wordgame:register' %}">Sign Up</a></div> -->
-                <div class="flex-item" id="base_login"><a href="{% url 'wordgame:login' %}">Login</a></div>
-                {% endif %}               
-                
-            </div>
-        </div>       
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <!-- Brand/logo -->
+            <img src="{% static 'images/question.png' %}" alt="How to play wordle!" 
+                style = "width: 20px; height: 20px;margin-left: 20%;margin-top: 10px;"/>
+            <span class="navbar-brand text-left" style="font-size: 40px; color: rgb(8, 157, 184);margin-left: 2%;">w[&nbsp;]rdle</span>
+             <div class="container font-weight-bold">
+                <!-- Nav pills -->
+                <ul class="nav ml-auto" role="tablist" >
+                    <li class="nav-item">
+                        <a class="nav-link"  href="{% url 'wordgame:game' %}">Game</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"  id="base_leaderboard" href="{% url 'wordgame:leaderboard' %}">Leaderboard</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link"  href="#">UserProfile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"  href="{% url 'wordgame:logout' %}">Logout</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a id="base_login" class="nav-link" href="{% url 'wordgame:login' %}">Login</a>
+                    </li>
+                    {% endif %} 
+                </ul>
+          </div>        
+        </nav>
         <div class="main-contain">
             {% block body_block %}
             
             {% endblock %}
         </div> 
-
         <!-- all templates should inherit jquery.js-->
         <script src="{% static "js/jquery-3.3.1.min.js" %}" crossorigin="anonymous"></script>
         {% block page_scripts %} 
+        
             <!--empty block to allow placement of specific js scripts in relevant templates-->
         {% endblock %}
     </body>
