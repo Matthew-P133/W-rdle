@@ -17,3 +17,8 @@ a:hover {
     text-decoration:none;
 }
 
+.setwordle{
+    font-size: 40px; 
+    color: rgb(8, 157, 184);
+    margin-left: 2%;
+}
