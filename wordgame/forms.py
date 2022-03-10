@@ -9,7 +9,7 @@ class UserForm(forms.ModelForm):
     username = forms.CharField(min_length=4, max_length=12, widget=forms.TextInput(
       attrs={"class": "form-control"}))
     password = forms.CharField(widget=forms.PasswordInput())
-    ConfirmPassword  = forms.CharField(widget=forms.PasswordInput())
+    PasswordConfirm  = forms.CharField(widget=forms.PasswordInput())
     class Meta:
         model = User
         fields = ('username', 'email', 'password')

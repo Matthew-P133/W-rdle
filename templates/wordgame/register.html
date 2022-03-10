@@ -9,7 +9,7 @@
     <h1>Register for w[...]rdle</h1>
     {% if registered %}
         <strong>thank you for registering!</strong>
-        <a href="{% url 'wordgame:index' %}">Return to the homepage.</a><br />
+        <a href="{% url 'wordgame:game' %}">Return to the homepage.</a><br />
     {% else %}
         <strong>register here!</strong><br />
         <form id="user_form" method="post" action="{% url 'wordgame:register' %}"enctype="multipart/form-data">
