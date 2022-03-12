@@ -8,12 +8,13 @@ from django.views.generic import FormView, UpdateView, View
 from wordgame.forms import UserForm
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth import authenticate, login,logout
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from wordgame.models import Challenge, Statistics
 from .forms import UserProfileForm
 
 from itertools import zip_longest
+import re
 
 # Create your views here.
 
@@ -127,27 +128,37 @@ class UserProfileView(LoginRequiredMixin, UpdateView):
         return redirect(self.get_success_url())
 
 class CheckGuessView(View):
-    def get(self, request):
-        word = request.GET['word']
-        guess = request.GET['guess']
+    def post(self, request):
+        word = request.POST['word']
+        guess = request.POST['guess']
 
-        try:
-            challenge = Challenge.objects.get(word=word)
-        except Challenge.DoesNotExist:
-            return HttpResponse(-1)
-        except ValueError:
-            return HttpResponse(-1)
+        # cleanse input to be only A-Z
+        word = re.sub(r'[^A-Z]', '', word.upper())
+        guess = re.sub(r'[^A-Z]', '', guess.upper())
 
-        output = ''
+        output = validate(word, guess)
+        return JsonResponse(output)
 
-        for pair in zip_longest(word, guess):
-            if pair[0] == pair[1]:
-                output = output + f'<span style="color:green">{pair[1]}</span>'
+def validate(word, guess):
+
+    formatting = []
+    output = {'guess': guess, 'formatting':formatting}
+
+    for pair in zip_longest(word, guess):
+        if pair[0] == pair[1]:
+                formatting.append('green')
+        else:
+            if (pair[1] and pair[1] in word):
+                formatting.append('yellow')
             else:
-                if (pair[1] and pair[1] in word):
-                    output = output + f'<span style="color:yellow">{pair[1]}</span>'
-                else:
-                    if (pair[1]):
-                        output = output + f'<span style="color:grey">{pair[1]}</span>'
+                if (pair[1]):
+                    formatting.append('grey')
 
-        return HttpResponse(output)
+    if word == guess:
+        output['success'] = True
+    else:
+        output['success'] = False 
+
+    # TODO if successful guess, update database
+
+    return output

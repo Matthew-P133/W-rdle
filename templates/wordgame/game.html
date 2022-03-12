@@ -16,18 +16,14 @@
 
 
     <div id class="d-flex justify-content-center">
-        <form id="check form">
+        <form id="check form" action="/wordgame/check_guess/">
+            {% csrf_token %}
             Enter guess
             <input type="text" id="guess" name="guess" value="GUESS">
-
-            <button id="check_btn"
-            data-word="{{ challenge.word }}"
-            class="btn btn-primary btn-sm"
-            type="button">
-            Check
-            </button>
+            <!--TODO - make form use a surrogate for word, rather than just the word in a hidden input-->
+            <input type="hidden" id="word" name="word" value="{{challenge.word}}">
+            <input type="submit" value="Check">
         </form>
-        
     </div>
     <p align="center">(To help with testing, the word is: {{ challenge.word }})</p>
 
