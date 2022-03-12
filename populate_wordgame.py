@@ -20,9 +20,6 @@ def populate():
         'Mario':{'score': 200, 'games_played': 200, 'win_streak': 50, 'games_won': 100, 'games_lost':100},
         'Bowser':{'score': 100, 'games_played': 100, 'win_streak': 25, 'games_won': 50, 'games_lost':50}}
 
-    for player, player_data in players.items():
-        add_statistics(player, player_data.get('score'), player_data.get('games_played'), player_data.get('win_streak'), player_data.get('games_won'), player_data.get('games_lost'))
-    
     challenges = [
         {'word':'WORD','word_length':4},
         {'word':'PROGRAM','word_length':7},
@@ -33,8 +30,11 @@ def populate():
 
     for challenge in challenges:
         add_challenge(challenge.get('word'), challenge.get('word_length'))
-    
 
+    for player, player_data in players.items():
+        add_statistics(player, player_data.get('score'), player_data.get('games_played'), player_data.get('win_streak'), player_data.get('games_won'), player_data.get('games_lost'))
+    
+ 
 def add_statistics(user, score, games_played, win_streak, games_won, games_lost):
 
     # create user
@@ -48,7 +48,7 @@ def add_statistics(user, score, games_played, win_streak, games_won, games_lost)
     profile.save()
 
     # create statistics for user
-    new_statistics = Statistics.objects.get_or_create(user=new_user)[0]
+    new_statistics = Statistics.objects.get_or_create(user=new_user, next_challenge = Challenge.objects.all()[0])[0]
     new_statistics.score=score
     new_statistics.games_played=games_played
     new_statistics.games_player = games_played
