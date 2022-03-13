@@ -18,7 +18,7 @@ def populate():
         'Tom':{'score': 100, 'games_played': 100, 'win_streak': 25, 'games_won': 50, 'games_lost':50},
         'Jerry':{'score': 50, 'games_played': 25, 'win_streak': 6, 'games_won': 10, 'games_lost':15},
         'Mario':{'score': 200, 'games_played': 200, 'win_streak': 50, 'games_won': 100, 'games_lost':100},
-        'Bowser':{'score': 100, 'games_played': 100, 'win_streak': 25, 'games_won': 50, 'games_lost':50}}
+        'Bowser':{'score': 300, 'games_played': 100, 'win_streak': 25, 'games_won': 50, 'games_lost':50}}
 
     for player, player_data in players.items():
         add_statistics(player, player_data.get('score'), player_data.get('games_played'), player_data.get('win_streak'), player_data.get('games_won'), player_data.get('games_lost'))

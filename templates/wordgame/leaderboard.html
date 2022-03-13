@@ -2,30 +2,33 @@
 {% load staticfiles %}
 
 {% block head_block %}
-<link rel="stylesheet" type="text/css" href="../../static/style/leaderboardCss.css" charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="../../static/style/leaderboardCss.css" charset="utf-8"/>
 {% endblock %}
 
 {% block title_block %}
-Leaderboard
+    Leaderboard
 {% endblock %}
 
 {% block body_block %}
-    <div id = "contain">
-        <div id = "set_background"> </div>
-        <div id = "contain-leaderboard">
-        {% if Scoreboard %}
-        <h1 align="center">Leaderboard</h1>
-        <ul>
-            <li>
-                <a href="{% url 'wordgame:leaderboard' %}">{{ Statistic.user.username }}</a>
-            </li>
-        </ul>
-        {% else %}
-        <strong>Failed to load database...</strong>
-        {% endif %}
+    <div id="contain">
+        <div id="set_background"></div>
+        <div id="contain-leaderboard">
+            &nbsp;
+            <header>
+                <h1 align="center">Leaderboard</h1>
+            </header>
+            <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3)" width="80%" color=#987cb9 SIZE=3>
+            &nbsp;
+            <div class="info">
+                <table id="info-table"></table>
+            </div>
         </div>
     </div>
-    
-        
-    
+    <script src="{% static '/js/get_leader_board.js' %}"></script>
+    <style>
+        th {
+            text-align: center;
+        }
+    </style>
 {% endblock %}
+

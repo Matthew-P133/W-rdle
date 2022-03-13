@@ -1,13 +1,16 @@
+import json
 from itertools import zip_longest
+from pickle import TRUE
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.forms import model_to_dict
 from django.shortcuts import render
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from django.views.generic import FormView, UpdateView, View
 
 from wordgame.forms import UserForm
 from django.urls import reverse, reverse_lazy
-from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from wordgame.models import Challenge, Statistics
@@ -16,14 +19,16 @@ from .forms import UserProfileForm
 from itertools import zip_longest
 import re
 
+
 # Create your views here.
 
 def game(request):
     return render(request, 'wordgame/game.html')
 
+
 def register(request):
     registered = False
-    if request.method == 'POST': 
+    if request.method == 'POST':
         user_form = UserForm(request.POST)
         if user_form.is_valid():
             user = user_form.save()
@@ -34,7 +39,8 @@ def register(request):
             print(user_form.errors)
     else:
         user_form = UserForm()
-    return render(request,'wordgame/register.html',context = {'user_form': user_form,'registered': registered})
+    return render(request, 'wordgame/register.html', context={'user_form': user_form, 'registered': registered})
+
 
 def user_login(request):
     if request.method == 'POST':
@@ -46,15 +52,17 @@ def user_login(request):
                 login(request, user)
                 return redirect(reverse('wordgame:game'))
             else:
-                return render(request,'wordgame/login.html',{'msg':'Your wordgame account is disabled.'})
+                return render(request, 'wordgame/login.html', {'msg': 'Your wordgame account is disabled.'})
         else:
-            return render(request,'wordgame/login.html',{'msg':'Wrong username or password.'})
+            return render(request, 'wordgame/login.html', {'msg': 'Wrong username or password.'})
     else:
         return render(request, 'wordgame/login.html')
 
+
 @login_required
 def restricted(request):
-    return render(request,'wordgame/restricted.html')
+    return render(request, 'wordgame/restricted.html')
+
 
 # Use the login_required() decorator to ensure only those logged in can
 # access the view.
@@ -65,30 +73,38 @@ def user_logout(request):
     # Take the user back to the homepage.
     return redirect(reverse('wordgame:game'))
 
+
+# TODO
 def leaderboard(request):
-    list = ['-score', 'games_played', 'games_won']
-    Scoreboard = Statistics.objects.filter(visible = True).order_by(*list)
-    return render(request, 'wordgame/leaderboard.html', {'Scoreboard': Scoreboard})
+    queryset = Statistics.objects.filter(visible=True).order_by('score')
+    data_list = []
+    for i in queryset:
+        data_list.append(model_to_dict(i))
+    return render(request, 'wordgame/leaderboard.html')
 
-# def show_leaderboard(request):
-#     context_dict = {}
 
-#     try:
-#         score = Statistics.objects.get()
-#         context_dict['score'] = score
-#     except Statistics.DoesNotExist:
-#         context_dict['score'] = None
-#     return render(request, 'wordgame/leaderboard.html', context=context_dict)
+# TODO
+def get_leader_board(request):
+    sort = request.GET.get('sort', None)
+    queryset = Statistics.objects.filter(visible=True).order_by(sort)
+
+    data_list = []
+    for i in queryset:
+        temp = model_to_dict(i)
+        temp['name'] = User.objects.get(id=i.user_id).username
+        data_list.append(temp)
+
+    return JsonResponse({'data': data_list})
 
 
 def game(request):
-    
     # the challenge being passed to the game page is currently hard coded - TODO
     challenge = Challenge.objects.get(word='PROGRAM')
 
     context_dict = {'challenge': challenge}
 
     return render(request, 'wordgame/game.html', context=context_dict)
+
 
 class UserProfileView(LoginRequiredMixin, UpdateView):
     form_class = UserProfileForm
@@ -127,6 +143,7 @@ class UserProfileView(LoginRequiredMixin, UpdateView):
         profile.save()
         return redirect(self.get_success_url())
 
+
 class CheckGuessView(View):
     def post(self, request):
         word = request.POST['word']
@@ -139,14 +156,14 @@ class CheckGuessView(View):
         output = validate(word, guess)
         return JsonResponse(output)
 
-def validate(word, guess):
 
+def validate(word, guess):
     formatting = []
-    output = {'guess': guess, 'formatting':formatting}
+    output = {'guess': guess, 'formatting': formatting}
 
     for pair in zip_longest(word, guess):
         if pair[0] == pair[1]:
-                formatting.append('green')
+            formatting.append('green')
         else:
             if (pair[1] and pair[1] in word):
                 formatting.append('yellow')
@@ -157,7 +174,7 @@ def validate(word, guess):
     if word == guess:
         output['success'] = True
     else:
-        output['success'] = False 
+        output['success'] = False
 
     # TODO if successful guess, update database
 

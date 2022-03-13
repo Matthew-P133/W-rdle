@@ -1,6 +1,8 @@
 from django.db import models
 
 from django.contrib.auth.models import User
+
+
 # Create your models here.
 
 
@@ -18,6 +20,7 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+
 class Statistics(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
     score = models.IntegerField(default=0)
@@ -25,13 +28,16 @@ class Statistics(models.Model):
     games_won = models.IntegerField(default=0)
     games_lost = models.IntegerField(default=0)
     win_streak = models.IntegerField(default=0)
+    # win_streak = games_won/games_played
     visible = models.BooleanField(default=True)
 
     def __str__(self):
         return f'{self.user.username} ({self.score})({self.games_played})({self.games_won})'
+        # return self.user
 
     class Meta:
         verbose_name_plural = 'Statistics'
+
 
 class Challenge(models.Model):
     word = models.CharField(max_length=10, unique=True, primary_key=True)
