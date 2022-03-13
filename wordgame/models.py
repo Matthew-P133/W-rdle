@@ -20,6 +20,17 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+<<<<<<< HEAD
+=======
+class Challenge(models.Model):
+
+    id = models.AutoField(unique=True, primary_key=True)
+    word = models.CharField(max_length=10)
+    timesPlayed = models.IntegerField(default=0)
+    successes = models.IntegerField(default=0)
+    failures = models.IntegerField(default=0)
+    word_length = models.IntegerField()
+>>>>>>> 788a34b0b860347b099bbabc0d229afc8bac0930
 
 class Statistics(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
@@ -30,6 +41,7 @@ class Statistics(models.Model):
     win_streak = models.IntegerField(default=0)
     # win_streak = games_won/games_played
     visible = models.BooleanField(default=True)
+    next_challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.user.username} ({self.score})({self.games_played})({self.games_won})'
@@ -38,6 +50,7 @@ class Statistics(models.Model):
     class Meta:
         verbose_name_plural = 'Statistics'
 
+<<<<<<< HEAD
 
 class Challenge(models.Model):
     word = models.CharField(max_length=10, unique=True, primary_key=True)
@@ -47,6 +60,8 @@ class Challenge(models.Model):
     word_length = models.IntegerField()
 
 
+=======
+>>>>>>> 788a34b0b860347b099bbabc0d229afc8bac0930
 class Game(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE)
@@ -56,4 +71,4 @@ class Game(models.Model):
     # user and challengeID make up the composite primary key (neither are unique alone)
 
     def __str__(self):
-        return f'Game #{self.challengeID} played by {self.user.username}'
+        return f'Game #{self.challenge.id} played by {self.user.username}'

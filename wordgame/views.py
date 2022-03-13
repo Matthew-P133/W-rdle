@@ -13,7 +13,7 @@ from django.urls import reverse, reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
-from wordgame.models import Challenge, Statistics
+from wordgame.models import Challenge, Statistics, Game
 from .forms import UserProfileForm
 
 from itertools import zip_longest
@@ -22,8 +22,7 @@ import re
 
 # Create your views here.
 
-def game(request):
-    return render(request, 'wordgame/game.html')
+
 
 
 def register(request):
@@ -104,6 +103,20 @@ def game(request):
     context_dict = {'challenge': challenge}
 
     return render(request, 'wordgame/game.html', context=context_dict)
+    
+    # if not logged in the challenge given is always the same example
+    if not request.user.is_authenticated:
+        challenge = Challenge.objects.all()[0]
+        context_dict = {'challenge': challenge}
+        return render(request, 'wordgame/game.html', context=context_dict)
+        
+    # user logged in so their next challenge is presented
+    else:
+        user = User.objects.get(username=request.user.username)
+        user_statistics = Statistics.objects.get(user=user)
+        challenge = user_statistics.next_challenge
+        context_dict = {'challenge': challenge}
+        return render(request, 'wordgame/game.html', context=context_dict)
 
 
 class UserProfileView(LoginRequiredMixin, UpdateView):
@@ -146,14 +159,29 @@ class UserProfileView(LoginRequiredMixin, UpdateView):
 
 class CheckGuessView(View):
     def post(self, request):
+        # extract information from request
         word = request.POST['word']
         guess = request.POST['guess']
+        number_guesses = int(request.POST['number_guesses'])
 
         # cleanse input to be only A-Z
         word = re.sub(r'[^A-Z]', '', word.upper())
         guess = re.sub(r'[^A-Z]', '', guess.upper())
 
+        # compare guess to target word
         output = validate(word, guess)
+
+        # save result to database if player was successful (and is logged in)
+        if output['success']:
+            user = request.user
+            if user.is_authenticated:
+                save_result(user, number_guesses)
+
+        if request.user.is_authenticated: 
+            output['logged_in'] = 1
+        else:
+            output['logged_in'] = 0
+
         return JsonResponse(output)
 
 
@@ -179,3 +207,19 @@ def validate(word, guess):
     # TODO if successful guess, update database
 
     return output
+
+def save_result(user, number_guesses):
+
+    user_statistics = Statistics.objects.get(user=user)
+    challenge = user_statistics.next_challenge
+    challenge_ID = challenge.id
+
+    user_statistics.games_won += 1
+    user_statistics.win_streak += 1
+    user_statistics.next_challenge = Challenge.objects.get(id=challenge_ID+1)
+    user_statistics.save()
+
+    game = Game.objects.get_or_create(user=user, challenge=challenge)[0]
+    game.successful = True
+    game.guesses = number_guesses
+    game.save()
