@@ -1,3 +1,4 @@
+from contextlib import nullcontext
 import json
 from itertools import zip_longest
 from pickle import TRUE
@@ -45,17 +46,19 @@ def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+        remember = request.POST.get('remember')
         user = authenticate(username=username, password=password)
         if user:
-            if user.is_active:
+            if user.is_active:                
+                if not remember:
+                    request.session.set_expiry(0)
                 login(request, user)
-                return redirect(reverse('wordgame:game'))
+                return redirect(reverse('wordgame:game'))           
             else:
                 return render(request, 'wordgame/login.html', {'msg': 'Your wordgame account is disabled.'})
         else:
-            return render(request, 'wordgame/login.html', {'msg': 'Wrong username or password.'})
-    else:
-        return render(request, 'wordgame/login.html')
+            return render(request, 'wordgame/login.html', {'msg': 'Wrong username or password!'})
+    return render(request, 'wordgame/login.html')
 
 
 @login_required

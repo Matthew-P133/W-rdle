@@ -13,32 +13,46 @@
 {% block body_block %}
     <div id = "contain">
         <div id = "set_background"> </div>
-        <div id = "contain-login">
-            <h1>Login to w[&nbsp;]rdle !</h1> 
-            <div id="login_top">
+        <div id = "contain-login">          
+            <div class="row justify-content-center">                  
                 <form id="login_form" method="post" action="{% url 'wordgame:login' %}">
                     {% csrf_token %}
-                    <div class="form-content">
+                    <div class="text-center"><h1>Login to w[&nbsp;]rdle!</h1></div>
+                    {% if msg %}
+                        <div class="alert alert-danger fade show text-center">
+                            <strong>{{ msg }}</strong>
+                        </div>
+                    {% else %}
+                        <br /><br />
+                    <!-- <div id="msg">{{ msg }}</div> -->
+                    {% endif %}
+                    <div class="form-content mt-3">
                         Username: <input type="text" name="username" value="" size="30" />
                     </div> 
-                    <br /><br />
-                    <div class="form-content">
-                        Password: <input type="password" name="password" value="" size="30" />
+                    <br />
+                    <div class="form-content mt-3">
+                        Password: <input style="margin-left: 5px" password" name="password" value="" size="30" />
                     </div> 
-                    <br /><br />
-                    <input id="login_click" type="submit" value="login" />
-                </form>
-                <div id="msg">{{ msg }}</div>
-                <div id="notice">
-                    <div id="remember">
-                        <input id="rememberMe" type="checkbox" name="check_remember" {{ check_value }}/>
-                        <span>Remember me</span>
+                    <br />
+                    <div class="form-content mt-4" style="text-align:center">
+                        <button style="width:120px" type="submit" value="login" class="btn btn-info">login</button>
                     </div>
-                </div>
+                    <div class="form-group form-check mt-3">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="checkbox" name="remember" value="1"> Remember me
+                        </label>
+                        </div>
+                    <div class="form-content mt-3 text-center">
+                        <span>Don't have an account? </span>
+                        &nbsp;<a style="color: rgb(98, 152, 253);" href="{% url 'wordgame:register' %}">Create Account</a>
+                    </div>
+                </form>
+                
+                
             </div>
             <br />
             <br />
-            <div id="login_bottom"><span>Don't have an account? </span><a style="margin-left:10px ;color: rgb(98, 152, 253);" href="{% url 'wordgame:register' %}">Create Account</a></div>
+            
         </div>
         
     </div>

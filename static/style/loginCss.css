@@ -38,62 +38,11 @@
     z-index: 1113;
 }
 
-#login_top{
-    display: block;
-    position: relative;
-    top: 10%;
-    left: 25%;
-    width: 333px;
-    height:200px;
-    font-size: 16px;
-}
 
-#notice{
-    display: flex;
-    width: 100%;
-    margin-top:15px;
-    font-size: 13px;
-    height:20px;
-}
 
-#remember{
-    width: 50%;
-}
 
-#login_form{
-    text-align: center;
-}
 
-h1{
-    text-align: center;
-}
 
-#login_click{ 
-    height:30px;
-    width:150px;
-    background-color:rgb(8, 157, 184) ;
-    border-radius: 5px 5px 5px 5px;
-    color: #fff;
-    font-size: 16px;
-}
 
-#login_click:hover{
-    background-color:#fff ;
-    color:rgb(8, 157, 184) ;
-    cursor:pointer;
-}
 
-#msg{
-    height:11px;
-    text-align: center;
-    color: red;
-    font-size: 11px;
-    margin-top: 10px;
-}
 
-#login_bottom{
-    text-align: center;
-    font-size: 13px;
-    height:20px;
-    margin-top: 30px;
-}
