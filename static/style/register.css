@@ -13,17 +13,12 @@
     filter: blur(4px);
 }
 
-#contain-login{
-    display: block;
-    position: fixed;
+.col-center-block {
     position: absolute;
     top: 50%;
-    left: 50%;
-    width: 666px;
-    height:550px;
-    margin-left: -333px;
-    margin-top: -200px;  
-    box-shadow: 2px 2px 4px #A0A0A0, -2px -2px 4px #A0A0A0;
-    background-color: #fff;
-    z-index: 1113;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
 }
