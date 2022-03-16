@@ -23,3 +23,72 @@ a:hover {
     margin-left: 2%;
 }
 
+.set_background{
+    display: block;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/background.jpg");
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    -webkit-filter: blur(3px);
+    filter: blur(4px);
+}
+
+#contain-login{
+    display: block;
+    position: fixed;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 666px;
+    height:400px;
+    margin-left: -333px;
+    margin-top: -200px;  
+    box-shadow: 2px 2px 4px #A0A0A0, -2px -2px 4px #A0A0A0;
+    background-color: #fff;
+    z-index: 1113;
+}
+
+.col-center-block {
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+#logo_wordle{
+    width: 20px; 
+    height: 20px;
+    margin-left: 20%;
+    margin-top: 10px;
+}
+.setHeight1{
+
+}
+
+.setHeight_200{
+    height: 200px;
+}
+
+.setWidth_120{
+    width:120px;
+}
+
+.setWidth_140{
+    width:140px;
+}
+
+.setWidth_500{
+    width:500px;
+}
+
+.setWidth_666{
+    width:666px;
+}

@@ -6,15 +6,11 @@
     Register
 {% endblock %}
 
-{% block head_block %}
-<link rel="stylesheet" type="text/css" href="{% static 'style/register.css' %}" charset="utf-8"/>
-{% endblock %}
-
 {% block body_block %}
     <div class="row justify-content-center " >          
         {% if registered %}
         <div class="col-center-block card ">        
-            <div class="card-header bg-success text-white" style = "height:200px"">
+            <div class="card-header bg-success text-white setHeight_200">
                 <img class="mx-auto d-block img-fluid"  src="{% static 'images/success.png' %}" alt="Create account successfully"/>
                 <h1 class="text-center">Success</h1>
             </div>
@@ -24,23 +20,23 @@
                 Your account has been successfully created.
                 </p>
             </br>
-                <div style="text-align:center">
-                    <a href="{% url 'wordgame:login' %}"><button style="width:140px" class="btn btn-info">Login now !</button></a>
+                <div class="text-center">
+                    <a href="{% url 'wordgame:login' %}"><button class="btn btn-info setWidth_140">Login now !</button></a>
                 </div>
             </div>        
         </div>              
         {% else %}
-        <div id = "set_background"> </div>
-        <div  class="col-center-block bg-white" style="width:666px;">          
+        <div class = "set_background"> </div>
+        <div  class="col-center-block bg-white setWidth_666">          
             <h2 class="text-center">Welcome To register!</h2>
             <div class="row justify-content-center " >
-                <div class="justify-content-center " style="width:500px;">                                
+                <div class="justify-content-center setWidth_500">                                
                     <form id="user_form" method="post" action="{% url 'wordgame:register' %}"enctype="multipart/form-data" class="align-self-center justify-content-center " >
                         {% csrf_token %}
                         </br>
                         {{ user_form|crispy }}
-                        <div class="form-content mt-4" style="text-align:center">
-                            <button style="width:140px" name="submit" value="Create Account" class="btn btn-info">Create Account</button>
+                        <div class="form-content mt-4 text-center">
+                            <button name="submit" value="Create Account" class="btn btn-info setWidth_140">Create Account</button>
                         </div>
                     </br>
                     </form>      
