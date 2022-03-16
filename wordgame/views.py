@@ -20,21 +20,25 @@ from .forms import UserProfileForm
 from itertools import zip_longest
 import re
 
-
 # Create your views here.
 def register(request):
     registered = False
     if request.method == 'POST':
         user_form = UserForm(request.POST)
-        if user_form.is_valid():
-            user = user_form.save(commit=False)
-            user.set_password(user.password)
-            user.save()
-            profile = UserProfile.objects.create(user = user)
-            profile.save()
-            registered = True
+        Pbbool = User.objects.filter(username=request.POST.get('username')).count()       
+        if Pbbool < 1:
+            if user_form.is_valid():
+                user = user_form.save(commit=False)
+                user.set_password(user.password)
+                user.save()
+                profile = UserProfile.objects.create(user = user)
+                profile.save()
+                registered = True
+            else:
+                print(user_form.errors)
         else:
-            print(user_form.errors)
+            message = "This username has already been registered!"
+            return render(request, 'wordgame/register.html',  context={'user_form': user_form,'message':message})
     else:
         user_form = UserForm()
     return render(request, 'wordgame/register.html', context={'user_form': user_form,'registered': registered})

@@ -34,6 +34,9 @@
                     <form id="user_form" method="post" action="{% url 'wordgame:register' %}"enctype="multipart/form-data" class="align-self-center justify-content-center " >
                         {% csrf_token %}
                         </br>
+                        {% if message %}
+                        <div class="alert alert-danger text-center">{{ message }}</div>
+                        {% endif %}
                         {{ user_form|crispy }}
                         <div class="form-content mt-4 text-center">
                             <button name="submit" value="Create Account" class="btn btn-info setWidth_140">Create Account</button>
