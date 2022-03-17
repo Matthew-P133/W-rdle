@@ -17,13 +17,18 @@ def populate():
     dictionary = os.path.join(settings.STATIC_DIR, 'wordlists/dictionary')
     targets = os.path.join(settings.STATIC_DIR, 'wordlists/targets')
 
+    print('Adding dictionary words...')
+
     words = []
     for word in open(dictionary):
         word = word.strip().upper()
         if word and word.isalpha() and len(word) <= 12:
+            print(word, end='\r')
             if not Dictionary.objects.filter(word=word):
                 words.append(Dictionary(word=word))
     Dictionary.objects.bulk_create(words)
+
+    print('Adding target words...')
 
     for word in open(targets):
         word = word.strip().upper()
@@ -31,6 +36,8 @@ def populate():
             if not Challenge.objects.filter(word=word):
                 challenge = Challenge.objects.create(word=word)
                 challenge.save()  
+
+    print('Creating made-up users...')
 
     # players to populate database with
     players = {
@@ -67,3 +74,4 @@ def add_player(user, win_streak, games_won, games_lost):
 if __name__ == '__main__':
     print('Starting Rango population script...')
     populate()
+    print('Database successfully populated.')
