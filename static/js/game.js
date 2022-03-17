@@ -46,6 +46,7 @@ function display(response) {
     var valid = response.valid_word;
     var logged_in = parseInt(response.logged_in);
     var game_finished = response.game_finished;
+    var guess = response.guess;
 
     var game_end_message = "";    
 
@@ -53,9 +54,10 @@ function display(response) {
     if (game_finished) {
         if (valid) {
             update_game_grid(response);
-            game_end_message += "Well done, you got the word in " +  $('#number_guesses').attr('value') + " guess(es)";
+            game_end_message += "Well done, you got " + guess + " in " +  $('#number_guesses').attr('value') + " guess(es).";
         } else {
-            game_end_message += "Oh dear. You ran out of guesses."
+            update_game_grid(response);
+            game_end_message += "Oh dear. You ran out of guesses. The word was: " + guess + ".";
         }
         finish_game(logged_in, game_end_message)
     } else {
@@ -69,11 +71,10 @@ function display(response) {
 
 function finish_game(logged_in, message) {
     if (logged_in) {
-        console.log("test");
-        if(alert( message + " Reload the page to try the next game.")) {}
+        if(alert( message + "\r\nPress OK to try the next game.")) {}
         else window.location.reload();
     } else {
-        if(alert( message + " Log in to play other challenges.")) {}
+        if(alert( message + "\r\nLog in to play other challenges.")) {}
         else window.location.reload();
     }
 }

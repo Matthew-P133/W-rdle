@@ -200,6 +200,9 @@ def validate(word, guess, number_guesses):
     if number_guesses > 9:
         output['game_finished'] = True
         output['success'] = False
+        for letter in word:
+            output['guess']=word
+            formatting.append('red')
         return output
 
     output['game_finished'] = False
