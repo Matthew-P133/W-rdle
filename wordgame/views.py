@@ -35,6 +35,10 @@ def register(request):
                 user.save()
                 profile = UserProfile.objects.create(user = user)
                 profile.save()
+
+                user_statistics = Statistics.objects.get_or_create(user=user, next_challenge = Challenge.objects.all()[0])[0]
+                user_statistics.save()
+
                 registered = True
         else:
             print(user_form.errors)
