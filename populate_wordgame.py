@@ -34,21 +34,21 @@ def populate():
 
     # players to populate database with
     players = {
-        'Tom':{'win_streak': 5, 'games_won': 50, 'games_lost':50},
-        'Jerry':{'win_streak': 6, 'games_won': 10, 'games_lost':15},
-        'Mario':{'win_streak': 1, 'games_won': 100, 'games_lost':100},
-        'Bowser':{'win_streak': 0, 'games_won': 50, 'games_lost':50}}
+        'Tom':{'win_streak': 2, 'games_won': 5, 'games_lost':1},
+        'Jerry':{'win_streak': 3, 'games_won': 10, 'games_lost':8},
+        'Mario':{'win_streak': 1, 'games_won': 10, 'games_lost':10},
+        'Bowser':{'win_streak': 0, 'games_won': 5, 'games_lost':5}}
 
     for player, player_data in players.items():
-        add_statistics(player, player_data.get('win_streak'), player_data.get('games_won'), player_data.get('games_lost'))
+        add_player(player, player_data.get('win_streak'), player_data.get('games_won'), player_data.get('games_lost'))
     
  
-def add_statistics(user, win_streak, games_won, games_lost):
+def add_player(user, win_streak, games_won, games_lost):
 
     # create user
     new_user = User.objects.get_or_create(username=user,
-                                 email='example.com',
-                                 password='passw0rd')[0]
+                                 email='example.com')[0]
+    new_user.set_password("passw0rd")
     new_user.save()
 
     # create their user profile
