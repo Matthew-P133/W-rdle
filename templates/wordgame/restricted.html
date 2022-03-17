@@ -7,22 +7,27 @@
 
 {% block body_block %}
 <div class="row justify-content-center " >
-    <div class="col-center-block card ">        
-        <div class="card-header bg-info text-white setHeight_200">
-            <img class="mx-auto d-block img-fluid"  src="{% static 'images/success.png' %}" alt="Create account successfully"/>
-            <h1 class="text-center">Hi dear</h1>
+    <div class="col-center-block card setWidth_500">        
+        <div class="card-header bg-warning text-white setHeight_200">
+            <img class="mx-auto d-block img-fluid"  src="{% static 'images/warning.png' %}" alt="Create account successfully"/>
+            <h1 class="text-center">warning</h1>
         </div>
-        <div class="card-body">
+        <div class="card-body text-center">
             <p >
                 </br> 
                 You have successfully logged in!
             </p>
             <p >
-                Do you want to <a class="text-info" href="{% url 'wordgame:logout' %}">logout</a> or return the game page?
+                Do you want to <a class="text-warning" href="{% url 'wordgame:logout' %}">logout</a>&nbsp;?
             </p>
+            <p >
+                Or return the <a href="{% url 'wordgame:game' %}"><button class="btn btn-warning setWidth_140 text-white">Game Page</button></a>
+            </p>
+           
+           
         </br>
             <div class="text-center">
-                <a href="{% url 'wordgame:game' %}"><button class="btn btn-info setWidth_140">Game Page</button></a>
+                
             </div>
         </div>        
     </div>
