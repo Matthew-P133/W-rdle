@@ -6,5 +6,26 @@
 {% endblock %}
 
 {% block body_block %}
-    Since you are logged in, you can see this text!
+<div class="row justify-content-center " >
+    <div class="col-center-block card ">        
+        <div class="card-header bg-info text-white setHeight_200">
+            <img class="mx-auto d-block img-fluid"  src="{% static 'images/success.png' %}" alt="Create account successfully"/>
+            <h1 class="text-center">Hi dear</h1>
+        </div>
+        <div class="card-body">
+            <p >
+                </br> 
+                You have successfully logged in!
+            </p>
+            <p >
+                Do you want to <a class="text-info" href="{% url 'wordgame:logout' %}">logout</a> or return the game page?
+            </p>
+        </br>
+            <div class="text-center">
+                <a href="{% url 'wordgame:game' %}"><button class="btn btn-info setWidth_140">Game Page</button></a>
+            </div>
+        </div>        
+    </div>
+</div>
+    
 {% endblock %}
