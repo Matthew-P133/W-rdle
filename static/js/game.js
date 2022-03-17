@@ -86,20 +86,28 @@ function update_game_grid(response) {
     var formatting = response.formatting;
     var number_guesses = parseInt($('#number_guesses').attr('value'))
 
-    // currently displayed guesses
-    messageString = $('#guesses').html();
-
     // update the number of guesses. (TODO - use a COOKIE for this instead)
     $('#number_guesses').val(number_guesses + 1)
 
-    var messageAppend = '';
+    
+
+    var messageAppend = '<div class="gamerow">';
     for (i = 0; i < guess.length; i++) {
-        messageAppend += '<span style="color:' + formatting[i] + '">' + guess.substring(i, i+1) + '</span>';
+
+        messageAppend += '<div class="tile" style="color: ' + formatting[i] + '">' + guess.substring(i, i+1) + '</div>';
+        
     }
-    messageString = messageString + messageAppend + '<br>'
+    for (i = guess.length; i < 12; i++) {
+        messageAppend += '<div class="tile" style="color: grey">' + '-' + '</div>';
+    }
+
+    messageAppend += '</div>';
 
     // update display
-    $('#guesses').html(messageString); 
+    $('.gamegrid').append(messageAppend)
+
+
+    
 
     // clear form ready for new guess
     $('#guess').val("");

@@ -222,7 +222,7 @@ def validate(word, guess, number_guesses):
             formatting.append('green')
         else:
             if (pair[1] and pair[1] in word):
-                formatting.append('yellow')
+                formatting.append('orange')
             else:
                 if (pair[1]):
                     formatting.append('grey')

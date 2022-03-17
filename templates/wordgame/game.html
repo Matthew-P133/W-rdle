@@ -6,19 +6,21 @@
     W[]rdle
 {% endblock %}
 
+{% block head_block %}
+    <link rel="stylesheet" href="{% static '/style/game.css' %}">
+{% endblock %}
+
 {% block body_block %}
-   
+<div class="grid">
     
-    <div id="contain">  
-        <br><br><br><br>  
-        <h4 id="guesses" align="center"></h4>
+    <div class="gamegrid">
+      
     </div>
 
-
-    <div id class="d-flex justify-content-center">
+    <div>
         <form id="check form" action="/wordgame/check_guess/">
             {% csrf_token %}
-            Enter guess
+            Enter guess: 
             <input type="text" id="guess" name="guess" value="GUESS">
             <!--TODO - make form use a surrogate for word, rather than just the word in a hidden input-->
             <input type="hidden" id="word_id" name="word_id" value="{{challenge.id}}">
@@ -27,14 +29,20 @@
         </form>
     </div>
 
-    <br><br>
-
-    <div class="row justify-content-center">
-            <button id="show_hint">Hover to cheat</button>
+    <div>
+        <button id="show_hint">Hover to cheat</button>
     </div>
-
-    <p id="cheat" align="center" style="display: none">{{ challenge.word }}</p>
+    <div>
+        <p id="cheat" style="display: none">{{ challenge.word }}</p>
+    </div>
     
+
+
+
+  
+
+    
+</div>
 
 {% endblock %}
 
