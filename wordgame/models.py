@@ -20,8 +20,6 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
-<<<<<<< HEAD
-=======
 class Challenge(models.Model):
 
     id = models.AutoField(unique=True, primary_key=True)
@@ -30,7 +28,6 @@ class Challenge(models.Model):
     successes = models.IntegerField(default=0)
     failures = models.IntegerField(default=0)
     word_length = models.IntegerField()
->>>>>>> 788a34b0b860347b099bbabc0d229afc8bac0930
 
 class Statistics(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
@@ -50,18 +47,7 @@ class Statistics(models.Model):
     class Meta:
         verbose_name_plural = 'Statistics'
 
-<<<<<<< HEAD
 
-class Challenge(models.Model):
-    word = models.CharField(max_length=10, unique=True, primary_key=True)
-    timesPlayed = models.IntegerField(default=0)
-    successes = models.IntegerField(default=0)
-    failures = models.IntegerField(default=0)
-    word_length = models.IntegerField()
-
-
-=======
->>>>>>> 788a34b0b860347b099bbabc0d229afc8bac0930
 class Game(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE)
