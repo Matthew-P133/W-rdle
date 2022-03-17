@@ -2,7 +2,18 @@
 
 $(document).ready(function() {
 
+    // reset guesses to 0 for new word
     $('#number_guesses').val(0)
+
+
+    $('#show_hint').hover(
+        function() {
+            $('#cheat').show()
+        }, function() {
+            $('#cheat').hide()
+        }
+    );
+
     
     // when user presses check guess
     $('form').submit(function(event) {
@@ -13,10 +24,6 @@ $(document).ready(function() {
         // get information
         var form = $(this);
         var actionUrl = form.attr('action');
-
-        // update the number of guesses. (TODO - use a COOKIE for this instead)
-        var number_guesses = parseInt($('#number_guesses').attr('value'))
-        $('#number_guesses').val(number_guesses + 1)
 
         // send request to back end
         $.ajax({
@@ -42,16 +49,32 @@ function display(response) {
     var guess = response.guess;
     var success = response.success;
     var formatting = response.formatting;
+    var valid = response.valid_word;
 
-    // append new message
+    // append new message or display prompt
+
+    if (valid) {
     var messageAppend = '';
-    for (i = 0; i < guess.length; i++) {
-        messageAppend += '<span style="color:' + formatting[i] + '">' + guess.substring(i, i+1) + '</span>';
+        for (i = 0; i < guess.length; i++) {
+            messageAppend += '<span style="color:' + formatting[i] + '">' + guess.substring(i, i+1) + '</span>';
+        }
+        messageString = messageString + messageAppend + '<br>'
+
+        // update the number of guesses. (TODO - use a COOKIE for this instead)
+        var number_guesses = parseInt($('#number_guesses').attr('value'))
+        $('#number_guesses').val(number_guesses + 1)
+
     }
-    messageString = messageString + messageAppend + '<br>'
+    else {
+        alert("That's not a word! Please try again.")
+    }
+    
 
     // update display
     $('#guesses').html(messageString); 
+
+    // clear form ready for new guess
+    $('#guess').val("");
 
     if (success) {
         var logged_in = parseInt(response.logged_in);

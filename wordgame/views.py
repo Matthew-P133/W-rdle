@@ -14,7 +14,7 @@ from django.urls import reverse, reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
-from wordgame.models import Challenge, Statistics, Game, UserProfile
+from wordgame.models import Challenge, Statistics, Game, UserProfile, Dictionary
 from .forms import UserProfileForm
 
 from itertools import zip_longest
@@ -163,9 +163,12 @@ class UserProfileView(LoginRequiredMixin, UpdateView):
 class CheckGuessView(View):
     def post(self, request):
         # extract information from request
-        word = request.POST['word']
+        id = request.POST['word_id']
         guess = request.POST['guess']
         number_guesses = int(request.POST['number_guesses'])
+
+        # look up word from ID
+        word = Challenge.objects.filter(id=id)[0].word
 
         # cleanse input to be only A-Z
         word = re.sub(r'[^A-Z]', '', word.upper())
@@ -189,8 +192,17 @@ class CheckGuessView(View):
 
 
 def validate(word, guess):
+
     formatting = []
     output = {'guess': guess, 'formatting': formatting}
+
+    # checks if a valid English word has been entered
+    if not Dictionary.objects.filter(word=guess):
+        output['valid_word'] = False
+        output['success'] = False
+        return output
+
+    output['valid_word'] = True
 
     for pair in zip_longest(word, guess):
         if pair[0] == pair[1]:

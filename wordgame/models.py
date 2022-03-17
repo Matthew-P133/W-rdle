@@ -23,11 +23,15 @@ class UserProfile(models.Model):
 class Challenge(models.Model):
 
     id = models.AutoField(unique=True, primary_key=True)
-    word = models.CharField(max_length=10)
+    word = models.CharField(max_length=12)
     timesPlayed = models.IntegerField(default=0)
     successes = models.IntegerField(default=0)
     failures = models.IntegerField(default=0)
     word_length = models.IntegerField()
+
+    def save(self, *args, **kwargs):
+        self.word_length = len(self.word)
+        super().save(*args, **kwargs) 
 
 class Statistics(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
@@ -58,3 +62,7 @@ class Game(models.Model):
 
     def __str__(self):
         return f'Game #{self.challenge.id} played by {self.user.username}'
+        
+
+class Dictionary(models.Model):
+    word = models.CharField(max_length=10, unique=True, primary_key=True)

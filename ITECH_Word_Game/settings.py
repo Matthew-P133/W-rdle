@@ -126,6 +126,7 @@ STATICFILES_DIRS = [STATIC_DIR, ]
 
 LOGIN_URL = 'wordgame:login'
 
+
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 

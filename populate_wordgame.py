@@ -7,11 +7,30 @@ django.setup()
 from django.contrib.auth.models import User
 from django import views
 
-import django
-django.setup()
-from wordgame.models import Statistics, UserProfile, Challenge
+from wordgame.models import Statistics, UserProfile, Challenge, Dictionary
+
+import re
+from django.conf import settings
 
 def populate():
+
+    dictionary = os.path.join(settings.STATIC_DIR, 'wordlists/dictionary')
+    targets = os.path.join(settings.STATIC_DIR, 'wordlists/targets')
+
+    words = []
+    for word in open(dictionary):
+        word = word.strip().upper()
+        if word and word.isalpha() and len(word) <= 12:
+            if not Dictionary.objects.filter(word=word):
+                words.append(Dictionary(word=word))
+    Dictionary.objects.bulk_create(words)
+
+    for word in open(targets):
+        word = word.strip().upper()
+        if word and word.isalpha() and len(word) <= 12:
+            if not Challenge.objects.filter(word=word):
+                challenge = Challenge.objects.create(word=word)
+                challenge.save()  
 
     # players to populate database with
     players = {
@@ -19,17 +38,6 @@ def populate():
         'Jerry':{'score': 50, 'games_played': 25, 'win_streak': 6, 'games_won': 10, 'games_lost':15},
         'Mario':{'score': 200, 'games_played': 200, 'win_streak': 50, 'games_won': 100, 'games_lost':100},
         'Bowser':{'score': 300, 'games_played': 100, 'win_streak': 25, 'games_won': 50, 'games_lost':50}}
-
-    challenges = [
-        {'word':'WORD','word_length':4},
-        {'word':'PROGRAM','word_length':7},
-        {'word':'BOOK','word_length':4},
-        {'word':'WORM','word_length':4},
-        {'word':'FOOD','word_length':4},
-    ]
-
-    for challenge in challenges:
-        add_challenge(challenge.get('word'), challenge.get('word_length'))
 
     for player, player_data in players.items():
         add_statistics(player, player_data.get('score'), player_data.get('games_played'), player_data.get('win_streak'), player_data.get('games_won'), player_data.get('games_lost'))
@@ -57,11 +65,6 @@ def add_statistics(user, score, games_played, win_streak, games_won, games_lost)
     new_statistics.games_won = games_won
     new_statistics.save()
     return new_statistics
-
-def add_challenge(word, word_length):
-    challenge = Challenge.objects.get_or_create(word=word, word_length=word_length)[0]
-    challenge.save()
-    return challenge
 
 # Start execution here!
 if __name__ == '__main__':
