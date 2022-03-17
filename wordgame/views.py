@@ -100,21 +100,17 @@ def get_leader_board(request):
 
 
 def game(request):
-    # the challenge being passed to the game page is currently hard coded - TODO
-    challenge = Challenge.objects.get(word='PROGRAM')
-
-    context_dict = {'challenge': challenge}
-
-    return render(request, 'wordgame/game.html', context=context_dict)
     
     # if not logged in the challenge given is always the same example
     if not request.user.is_authenticated:
+        print("test")
         challenge = Challenge.objects.all()[0]
         context_dict = {'challenge': challenge}
         return render(request, 'wordgame/game.html', context=context_dict)
         
     # user logged in so their next challenge is presented
     else:
+        print("test")
         user = User.objects.get(username=request.user.username)
         user_statistics = Statistics.objects.get(user=user)
         challenge = user_statistics.next_challenge

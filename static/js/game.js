@@ -61,6 +61,7 @@ function display(response) {
 
 function guessedWord(logged_in) {
     if (logged_in) {
+        console.log("test");
         if(alert('Well done, you got it in ' +  $('#number_guesses').attr('value') + ' guess(es)! Reload the page to try the next game.' )) {}
         else window.location.reload();
     } else {
