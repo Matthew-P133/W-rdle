@@ -27,12 +27,13 @@
         </form>
     </div>
 
+    <br><br>
 
-    <div>
-        <br><br><br><br> 
-        <button align="center" id="show_hint">Hover to cheat</button>
-        <p id="cheat" align="center" style="display: none">(The word is: {{ challenge.word }})</p>
+    <div class="row justify-content-center">
+            <button id="show_hint">Hover to cheat</button>
     </div>
+
+    <p id="cheat" align="center" style="display: none">{{ challenge.word }}</p>
     
 
 {% endblock %}

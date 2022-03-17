@@ -175,13 +175,13 @@ class CheckGuessView(View):
         guess = re.sub(r'[^A-Z]', '', guess.upper())
 
         # compare guess to target word
-        output = validate(word, guess)
+        output = validate(word, guess, number_guesses)
 
-        # save result to database if player was successful (and is logged in)
-        if output['success']:
+        # save result to database if game finished (and player is logged in)
+        if output['game_finished']:
             user = request.user
             if user.is_authenticated:
-                save_result(user, number_guesses)
+                save_result(user, number_guesses, output['success'])
 
         if request.user.is_authenticated: 
             output['logged_in'] = 1
@@ -191,10 +191,18 @@ class CheckGuessView(View):
         return JsonResponse(output)
 
 
-def validate(word, guess):
+def validate(word, guess, number_guesses):
 
     formatting = []
     output = {'guess': guess, 'formatting': formatting}
+
+    # check that not exceeded maximum number of guesses
+    if number_guesses > 9:
+        output['game_finished'] = True
+        output['success'] = False
+        return output
+
+    output['game_finished'] = False
 
     # checks if a valid English word has been entered
     if not Dictionary.objects.filter(word=guess):
@@ -216,25 +224,40 @@ def validate(word, guess):
 
     if word == guess:
         output['success'] = True
+        output['game_finished'] = True;
     else:
         output['success'] = False
 
-    # TODO if successful guess, update database
-
     return output
 
-def save_result(user, number_guesses):
+def save_result(user, number_guesses, success):
 
     user_statistics = Statistics.objects.get(user=user)
     challenge = user_statistics.next_challenge
     challenge_ID = challenge.id
 
-    user_statistics.games_won += 1
-    user_statistics.win_streak += 1
+
+    if (success):
+        user_statistics.games_won += 1
+        user_statistics.win_streak += 1
+
+    else:
+        user_statistics.games_lost += 1
+        user_statistics.win_streak = 0
+
     user_statistics.next_challenge = Challenge.objects.get(id=challenge_ID+1)
     user_statistics.save()
 
     game = Game.objects.get_or_create(user=user, challenge=challenge)[0]
-    game.successful = True
+    game.successful = success
     game.guesses = number_guesses
     game.save()
+
+    challenge.timesPlayed = challenge.timesPlayed + 1
+    if (success):
+        challenge.successes += 1
+    else:
+        challenge.failures += 1
+    challenge.save()
+
+

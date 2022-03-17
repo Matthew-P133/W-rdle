@@ -31,6 +31,7 @@ class Challenge(models.Model):
 
     def save(self, *args, **kwargs):
         self.word_length = len(self.word)
+        self.timesPlayed = self.successes + self.failures
         super().save(*args, **kwargs) 
 
 class Statistics(models.Model):
@@ -50,6 +51,14 @@ class Statistics(models.Model):
 
     class Meta:
         verbose_name_plural = 'Statistics'
+
+    def save(self, *args, **kwargs):
+        self.games_played = self.games_lost + self.games_won
+        
+        calculated_score = self.games_won + self.games_won * self.win_streak
+        self.score = round(calculated_score)
+
+        super().save(*args, **kwargs) 
 
 
 class Game(models.Model):

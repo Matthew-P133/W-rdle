@@ -42,53 +42,64 @@ $(document).ready(function() {
 // update the game display
 function display(response) {
 
+    // extract information from ajax response
+    var valid = response.valid_word;
+    var logged_in = parseInt(response.logged_in);
+    var game_finished = response.game_finished;
+
+    var game_end_message = "";    
+
+    // append new message or display prompt
+    if (game_finished) {
+        if (valid) {
+            update_game_grid(response);
+            game_end_message += "Well done, you got the word in " +  $('#number_guesses').attr('value') + " guess(es)";
+        } else {
+            game_end_message += "Oh dear. You ran out of guesses."
+        }
+        finish_game(logged_in, game_end_message)
+    } else {
+        if (valid) {
+            update_game_grid(response);
+        } else {
+            alert("That's not a word! Please try again.");
+        }
+    }  
+}
+
+function finish_game(logged_in, message) {
+    if (logged_in) {
+        console.log("test");
+        if(alert( message + " Reload the page to try the next game.")) {}
+        else window.location.reload();
+    } else {
+        if(alert( message + " Log in to play other challenges.")) {}
+        else window.location.reload();
+    }
+}
+
+function update_game_grid(response) {
+
+    // get information from response
+    var guess = response.guess;
+    var formatting = response.formatting;
+    var number_guesses = parseInt($('#number_guesses').attr('value'))
+
     // currently displayed guesses
     messageString = $('#guesses').html();
 
-    // extract information from ajax response
-    var guess = response.guess;
-    var success = response.success;
-    var formatting = response.formatting;
-    var valid = response.valid_word;
+    // update the number of guesses. (TODO - use a COOKIE for this instead)
+    $('#number_guesses').val(number_guesses + 1)
 
-    // append new message or display prompt
-
-    if (valid) {
     var messageAppend = '';
-        for (i = 0; i < guess.length; i++) {
-            messageAppend += '<span style="color:' + formatting[i] + '">' + guess.substring(i, i+1) + '</span>';
-        }
-        messageString = messageString + messageAppend + '<br>'
-
-        // update the number of guesses. (TODO - use a COOKIE for this instead)
-        var number_guesses = parseInt($('#number_guesses').attr('value'))
-        $('#number_guesses').val(number_guesses + 1)
-
+    for (i = 0; i < guess.length; i++) {
+        messageAppend += '<span style="color:' + formatting[i] + '">' + guess.substring(i, i+1) + '</span>';
     }
-    else {
-        alert("That's not a word! Please try again.")
-    }
-    
+    messageString = messageString + messageAppend + '<br>'
 
     // update display
     $('#guesses').html(messageString); 
 
     // clear form ready for new guess
     $('#guess').val("");
-
-    if (success) {
-        var logged_in = parseInt(response.logged_in);
-        guessedWord(logged_in)
-    }
-}
-
-function guessedWord(logged_in) {
-    if (logged_in) {
-        console.log("test");
-        if(alert('Well done, you got it in ' +  $('#number_guesses').attr('value') + ' guess(es)! Reload the page to try the next game.' )) {}
-        else window.location.reload();
-    } else {
-        if(alert('Well done, you got it in ' +  $('#number_guesses').attr('value') + ' guess(es)! Log in to play other challenges.')) {}
-        else window.location.reload();
-    }
 }
