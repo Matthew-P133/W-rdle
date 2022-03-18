@@ -58,7 +58,7 @@ def user_login(request):
                     if not remember:
                         request.session.set_expiry(0)
                     login(request, user)
-                    return redirect(reverse('wordgame:game'))           
+                    return redirect(reverse('wordgame:game'), {'user': user.username})         
                 else:
                     return render(request, 'wordgame/login.html', {'msg': 'Your wordgame account is disabled.'})
             else:
