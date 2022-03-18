@@ -1,0 +1,42 @@
+
+.grid {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 33em;
+    height: auto;
+    margin: auto;
+    flex-direction: column;
+    row-gap: 2em;
+}
+
+.gamegrid {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+    width: 32em;
+    height: auto;
+    margin: 2em;
+    flex-direction: column;
+}
+
+.gamerow {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: flex-start;
+    width: 95%;
+    height: 2.5em;
+    column-gap:0.5em;
+    flex-direction: row;
+}
+
+.tile {
+    height: 2em;
+    flex-basis: 2em;
+    border-style: solid;
+    text-align: center;
+    justify-content: center;
+}
