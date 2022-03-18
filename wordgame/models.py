@@ -1,6 +1,8 @@
+from unicodedata import decimal
 from django.db import models
 
 from django.contrib.auth.models import User
+from django.db.models import Avg
 
 
 # Create your models here.
@@ -44,6 +46,7 @@ class Statistics(models.Model):
     # win_streak = games_won/games_played
     visible = models.BooleanField(default=True)
     next_challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE)
+    average_guesses = models.DecimalField(decimal_places=2, max_digits=5, default=0)
 
     def __str__(self):
         return f'{self.user.username} ({self.score})({self.games_played})({self.games_won})'
@@ -57,6 +60,10 @@ class Statistics(models.Model):
         
         calculated_score = self.games_won + self.games_won * self.win_streak
         self.score = round(calculated_score)
+
+        if self.games_played > 0:
+            self.average_guesses = calculate_average_guesses(self.user)
+
 
         super().save(*args, **kwargs) 
 
@@ -75,3 +82,12 @@ class Game(models.Model):
 
 class Dictionary(models.Model):
     word = models.CharField(max_length=10, unique=True, primary_key=True)
+
+
+def calculate_average_guesses(user):
+    average_guesses = Game.objects.filter(user=user, successful=True).aggregate(Avg('guesses'))
+    if average_guesses['guesses__avg']:
+        print(average_guesses['guesses__avg'])
+        return average_guesses['guesses__avg']
+    else:
+        return 0

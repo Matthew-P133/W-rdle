@@ -72,6 +72,6 @@ def add_player(user, win_streak, games_won, games_lost):
 
 # Start execution here!
 if __name__ == '__main__':
-    print('Starting Rango population script...')
+    print('Starting W[]rdle population script...')
     populate()
     print('Database successfully populated.')
