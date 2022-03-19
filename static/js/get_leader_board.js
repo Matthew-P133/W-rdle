@@ -34,18 +34,21 @@ const renderTable = async (sort = 'score', index = 0) => {
     })
 
     table.innerHTML = `<thead>
-            <th>Name</th>
-            ${th}
+        <tr>
+          <th>Name</th>
+          ${th}
+        </tr>
         </thead>`
 
     const username = window.localStorage.getItem('user')
 
+    let tempBody = ''
     for (const i of defaultData.data) {
         let target = ''
         if (i.name === username) {
             target = "(YOU)"
         }
-        table.innerHTML += `<tr>
+        tempBody += `<tr>
             <th>${i.name}${target}</th>
             <th>${i.score}</th>
             <th>${i.games_won}</th>
@@ -53,7 +56,11 @@ const renderTable = async (sort = 'score', index = 0) => {
             <th>${i.games_played}</th>
             <th>${i.win_streak}</th>
         </tr>`
+        
     }
+
+
+    table.innerHTML += `<tbody>${tempBody}</tbody>`
 }
 //render original table
 renderTable()

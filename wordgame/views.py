@@ -3,7 +3,8 @@ import json
 from itertools import zip_longest
 from pickle import TRUE
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
+from django.db.models import QuerySet
 from django.forms import model_to_dict
 from django.shortcuts import render
 from django.shortcuts import render, redirect
@@ -58,7 +59,12 @@ def user_login(request):
                     if not remember:
                         request.session.set_expiry(0)
                     login(request, user)
-                    return redirect(reverse('wordgame:game'), {'user': user.username})         
+                    if str(request.user) == 'AnonymousUser':
+                        username = 'Anonymous User'
+                    else:
+                        username = user.username
+                    print('username',username)
+                    return redirect(reverse('wordgame:game'), {'user': username})
                 else:
                     return render(request, 'wordgame/login.html', {'msg': 'Your wordgame account is disabled.'})
             else:
@@ -84,11 +90,30 @@ def user_logout(request):
 
 # TODO
 def leaderboard(request):
-    queryset = Statistics.objects.filter(visible=True).order_by('score')
-    data_list = []
-    for i in queryset:
-        data_list.append(model_to_dict(i))
-    return render(request, 'wordgame/leaderboard.html')
+    # queryset = Statistics.objects.filter(visible=True).order_by('score')
+    # data_list = []
+    # for i in queryset:
+    #     data_list.append(model_to_dict(i))
+    if str(request.user) == 'AnonymousUser':
+        data = {
+			"user": "Anonymous User",
+            "rank": 0,
+            "score": 0,
+            "avatar": 'photots/AnonymousUser.png'
+        }
+        return render(request, 'wordgame/leaderboard.html', data)
+    queryset = list(Statistics.objects.all().order_by('-score'))
+    statistics = Statistics.objects.get(user=request.user)
+    userProfile = UserProfile.objects.get(user=request.user)
+
+    data = {
+        "rank": queryset.index(statistics) + 1,
+        "score": statistics.score,
+        "avatar": userProfile.photo
+    }
+
+    return render(request, 'wordgame/leaderboard.html', data)
+
 
 
 # TODO
@@ -111,7 +136,7 @@ def game(request):
     if not request.user.is_authenticated:
         print("test")
         challenge = Challenge.objects.all()[0]
-        context_dict = {'challenge': challenge}
+        context_dict = {'challenge': challenge, 'name': 'Anonymous User'}
         return render(request, 'wordgame/game.html', context=context_dict)
         
     # user logged in so their next challenge is presented
