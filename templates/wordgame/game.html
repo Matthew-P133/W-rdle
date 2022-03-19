@@ -11,9 +11,12 @@
 {% endblock %}
 
 {% block body_block %}
+
+
+
 <div class="grid">
     
-    <div class="gamegrid">
+    <div class="gamegrid" id="game">
       
     </div>
 
@@ -29,18 +32,117 @@
         </form>
     </div>
 
-    <div>
-        <button id="show_hint">Hover to cheat</button>
-    </div>
-    <div>
-        <p id="cheat" style="display: none">{{ challenge.word }}</p>
-    </div>
+    <div></div>
+    <div></div>
+
+ 
+</div>
+
+
+
+<div id="help" class="grid">
+    <div id="help-content">
+    <span id="help-close">&times&nbsp&nbsp</span>
     
+        <br>
+        <h4 style="text-align: center">How To Play</h4>
+
+            
+    
+            
+
+                
+        <p>Try to guess the word...</p>
+                
+                <div class="gamegrid">
+                <div class="gamerow">
+                    <div class="tile" style="color: green">P</div>
+                    <div class="tile" style="color: grey">R</div>
+                    <div class="tile" style="color: orange">O</div>
+                    <div class="tile" style="color: grey">G</div>
+                    <div class="tile" style="color: grey">R</div>
+                    <div class="tile" style="color: grey">A</div>
+                    <div class="tile" style="color: grey">M</div>
+                </div>
+                </div>
+
+             
+            
+                <div>We'll let you know if a letter is correct (green), in the wrong position (orange) or incorrect (grey).</div>               
 
 
+                <div class="gamegrid">
+                <div class="gamerow">
+                    <div class="tile" style="color: grey">J</div>
+                    <div class="tile" style="color: grey">A</div>
+                    <div class="tile" style="color: grey">V</div>
+                    <div class="tile" style="color: grey">A</div>
+                    <div class="tile" style="color: grey">S</div>
+                    <div class="tile" style="color: grey">C</div>
+                    <div class="tile" style="color: grey">R</div>
+                    <div class="tile" style="color: grey">I</div>
+                    <div class="tile" style="color: orange">P</div>
+                    <div class="tile" style="color: orange">T</div>
 
-  
 
+                </div>
+            </div>
+              
+
+                Words can be up to 12 letters long.
+
+                
+            
+
+                <div class="gamegrid">
+                <div class="gamerow">
+                    <div class="tile" style="color: grey">L</div>
+                    <div class="tile" style="color: grey">E</div>
+                    <div class="tile" style="color: green">T</div>
+                    <div class="tile" style="color: grey">T</div>
+                    <div class="tile" style="color: grey">E</div>
+                    <div class="tile" style="color: grey">R</div>
+ 
+                </div>
+            </div>
+
+                <p>Highlighting also indicates the number of times a letter is present.</p>
+
+                <div class="gamegrid">
+                <div class="gamerow">
+                    <div class="tile" style="color: green">P</div>
+                    <div class="tile" style="color: green">Y</div>
+                    <div class="tile" style="color: green">T</div>
+                    <div class="tile" style="color: green">H</div>
+                    <div class="tile" style="color: green">O</div>
+                    <div class="tile" style="color: green">N</div>
+ 
+                </div>
+            </div>
+
+                Good luck! 
+                <br>
+                <br>
+                If you get stuck, you can always have sneaky look at the word:
+
+            
+                <br>
+                <br>
+                
+                <div>
+                    <button id="show_hint">Show answer</button><p id="cheat">  {{ challenge.word }}</p>
+                </div>
+                
+            </div>
+
+              
+            </div>
+            
+        
+            
+        
+            
+        
     
 </div>
 

@@ -7,7 +7,19 @@ $(document).ready(function () {
                 },function(){
                 $(this).css("color","white");
             });
-            }
-        });
+        }
+    });
+
+    $('#logo_wordle').click(function() {
+        $('#help').css('display', 'block');
+    });
     
+
+    $('#help-close').click(function() {
+        $('#help').css('display', 'none');
+    });
+
+
+
+
 });

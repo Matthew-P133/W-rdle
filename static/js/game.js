@@ -6,11 +6,9 @@ $(document).ready(function() {
     $('#number_guesses').val(0)
 
 
-    $('#show_hint').hover(
+    $('#show_hint').click(
         function() {
-            $('#cheat').show()
-        }, function() {
-            $('#cheat').hide()
+            $('#cheat').css('display', 'block')
         }
     );
 
@@ -104,10 +102,7 @@ function update_game_grid(response) {
     messageAppend += '</div>';
 
     // update display
-    $('.gamegrid').append(messageAppend)
-
-
-    
+    $('.gamegrid#game').append(messageAppend);
 
     // clear form ready for new guess
     $('#guess').val("");

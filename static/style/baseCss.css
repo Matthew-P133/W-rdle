@@ -89,3 +89,37 @@ a:hover {
 .setWidth_666{
     width:666px;
 }
+
+ 
+ #help {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 25%;
+    top: 25%;
+    width: 50%; 
+    height: 50%;
+    overflow:auto;
+    background-color: rgb(255,255,255); 
+    border-width: 1px;
+    border-style: solid;
+  }
+
+  #help-content {
+    padding: 20px;
+  }
+  
+  
+  #help-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  #close:hover,
+  #close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  } 

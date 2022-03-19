@@ -1,9 +1,9 @@
 
 .grid {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
-    width: 33em;
+    width: 33%;
     height: auto;
     margin: auto;
     flex-direction: column;
@@ -15,7 +15,7 @@
     justify-content: flex-start;
     align-items: center;
     align-content: center;
-    width: 32em;
+    width: 95%;
     height: auto;
     margin: 2em;
     flex-direction: column;
@@ -39,4 +39,8 @@
     border-style: solid;
     text-align: center;
     justify-content: center;
+}
+
+#cheat {
+    display: none;
 }
