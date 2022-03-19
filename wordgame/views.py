@@ -99,7 +99,7 @@ def leaderboard(request):
 			"user": "Anonymous User",
             "rank": 0,
             "score": 0,
-            "avatar": 'photos/AnonymousUser.png'
+            "avatar": 'photots/AnonymousUser.png'
         }
         return render(request, 'wordgame/leaderboard.html', data)
     queryset = list(Statistics.objects.all().order_by('-score'))
