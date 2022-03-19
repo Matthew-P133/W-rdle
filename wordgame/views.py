@@ -88,7 +88,6 @@ def user_logout(request):
     return redirect(reverse('wordgame:game'))
 
 
-# TODO
 def leaderboard(request):
     # queryset = Statistics.objects.filter(visible=True).order_by('score')
     # data_list = []
@@ -104,19 +103,20 @@ def leaderboard(request):
         return render(request, 'wordgame/leaderboard.html', data)
     queryset = list(Statistics.objects.all().order_by('-score'))
     statistics = Statistics.objects.get(user=request.user)
-    userProfile = UserProfile.objects.get(user=request.user)
-
+    try:
+        userProfile = UserProfile.objects.get(user=request.user)
+    except Exception:
+        userProfile = UserProfile.objects.create(user=request.user)
     data = {
         "rank": queryset.index(statistics) + 1,
         "score": statistics.score,
-        "avatar": userProfile.photo
+        "avatar": userProfile.photo if userProfile.photo else 'photots/AnonymousUser.png'
     }
 
     return render(request, 'wordgame/leaderboard.html', data)
 
 
 
-# TODO
 def get_leader_board(request):
     sort = request.GET.get('sort', None)
     queryset = Statistics.objects.filter(visible=True).order_by(sort)
