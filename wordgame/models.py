@@ -36,6 +36,7 @@ class Challenge(models.Model):
         self.timesPlayed = self.successes + self.failures
         super().save(*args, **kwargs) 
 
+
 class Statistics(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
     score = models.IntegerField(default=0)

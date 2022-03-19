@@ -24,8 +24,8 @@ class UserForm(forms.ModelForm):
 
 class UserProfileForm(forms.ModelForm):
     SEX_CHOICES = (
-        (0, 'man'),
-        (1, 'woman'),
+        (0, 'male'),
+        (1, 'female'),
     )
     sex = forms.ChoiceField(choices=SEX_CHOICES, required=False)
     photo = forms.ImageField()
