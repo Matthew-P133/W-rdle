@@ -89,10 +89,6 @@ def user_logout(request):
 
 
 def leaderboard(request):
-    # queryset = Statistics.objects.filter(visible=True).order_by('score')
-    # data_list = []
-    # for i in queryset:
-    #     data_list.append(model_to_dict(i))
     if str(request.user) == 'AnonymousUser':
         data = {
 			"user": "Anonymous User",

@@ -1,8 +1,9 @@
 {% extends 'wordgame/base.html' %}
 {% load staticfiles %}
 
+
 {% block head_block %}
-    <link rel="stylesheet" type="text/css" href="../../static/style/leaderboardCss.css" charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'style/leaderboardCss.css' %}" charset="utf-8"/>
 {% endblock %}
 
 {% block title_block %}
@@ -12,12 +13,12 @@
 {% block body_block %}
     <div id="contain">
         <div id="set_background"></div>
-        <div id="contain-leaderboard" style="text-align: center">
+        <div id="contain-leaderboard" class="text-center">
             <div class="contain-left">
                 <div class="card" style="width: 18rem; height: 325px">
                     <div class="card-body">
                         <h5 class="card-title h2 text-primary" style="font-size: 1.9rem">{{ user }}</h5>
-                        <img src="/media/{{ avatar }}" class="img-fluid" alt="...">
+                        <img src="/media/{{ avatar }}" class="img-fluid icon" alt="...">
                     </div>
                 </div>
                 <div class="user-content">
@@ -46,49 +47,6 @@
 
         </div>
     </div>
-
-    <style>
-        #contain-leaderboard {
-            display: flex;
-            align-items: center;
-        }
-
-        .contain-left {
-            margin-left: 30px;
-            width: 30%;
-        }
-
-        .contain-right {
-            margin-right: 30px;
-            width: 65%;
-        }
-
-        .user-content {
-            display: flex;
-            justify-content: space-around;
-        }
-
-        th {
-            text-align: center;
-        }
-
-        .info {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-        }
-
-        .noun-sort {
-            width: 20px;
-            height: 20px;
-        {#background: lightcoral;#}
-        }
-
-        .noun-sort-active {
-        {#background: lightcyan;#}
-        }
-
-    </style>
     <script src="{% static '/js/get_leader_board.js' %}"></script>
 {% endblock %}
 

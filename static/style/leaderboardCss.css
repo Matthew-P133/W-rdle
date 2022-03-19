@@ -24,9 +24,9 @@ html{
     position: fixed;
     width: 100%;
     height: 100%;
-    background-image: url("../images/background.jpg");
-    background-size:100% 100%;
-    background-repeat:no-repeat;
+    /* background-image: url("../images/background.jpg"); */
+    /* background-size:100% 100%; */
+    /* background-repeat:no-repeat; */
     top: 0;
     left: 0;
     z-index: -1;
@@ -66,4 +66,49 @@ html{
     z-index: 1113;
 }
 
+#contain-leaderboard {
+    display: flex;
+    align-items: center;
+}
+
+.contain-left {
+    margin-left: 30px;
+    width: 30%;
+}
+
+.icon{
+    max-width: 256px;
+    max-height: 256px;
+}
+
+
+.contain-right {
+    margin-right: 30px;
+    width: 65%;
+}
+
+.user-content {
+    display: flex;
+    justify-content: space-around;
+}
+
+th {
+    text-align: center;
+}
+
+.info {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.noun-sort {
+    width: 20px;
+    height: 20px;
+{#background: lightcoral;#}
+}
+
+.noun-sort-active {
+{#background: lightcyan;#}
+}
 
