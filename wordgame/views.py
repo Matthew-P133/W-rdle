@@ -130,14 +130,12 @@ def game(request):
     
     # if not logged in the challenge given is always the same example
     if not request.user.is_authenticated:
-        print("test")
         challenge = Challenge.objects.all()[0]
         context_dict = {'challenge': challenge, 'name': 'Anonymous User'}
         return render(request, 'wordgame/game.html', context=context_dict)
         
     # user logged in so their next challenge is presented
     else:
-        print("test")
         user = User.objects.get(username=request.user.username)
         user_statistics = Statistics.objects.get(user=user)
         challenge = user_statistics.next_challenge
@@ -190,7 +188,7 @@ class CheckGuessView(View):
         guess = request.POST['guess']
         number_guesses = int(request.POST['number_guesses'])
 
-        # look up word from ID
+        # look up word from its ID
         word = Challenge.objects.filter(id=id)[0].word
 
         # cleanse input to be only A-Z
@@ -216,8 +214,12 @@ class CheckGuessView(View):
 
 def validate(word, guess, number_guesses):
 
+    # create dictionary for output
     formatting = []
     output = {'guess': guess, 'formatting': formatting}
+
+    for i in range(len(guess)):
+        formatting.append("grey")
 
     # check that not exceeded maximum number of guesses
     if number_guesses > 9:
@@ -238,15 +240,30 @@ def validate(word, guess, number_guesses):
 
     output['valid_word'] = True
 
-    for pair in zip_longest(word, guess):
-        if pair[0] == pair[1]:
-            formatting.append('green')
+    # count the number of appearances of each letter in the target word
+    letters = {}
+
+    for letter in word:
+        if letter in letters:
+            letters[letter] = letters[letter] + 1
         else:
-            if (pair[1] and pair[1] in word):
-                formatting.append('orange')
-            else:
-                if (pair[1]):
-                    formatting.append('grey')
+            letters[letter] = 1
+
+    # first, highlight correctly placed letters in green
+    for index, pair in enumerate(zip_longest(word, guess)):
+        print(index)
+        if pair[0] == pair[1]:
+            formatting[index] = "green"
+            letters[pair[1]] = letters[pair[1]] - 1
+        
+    # next highlight incorrectly placed, but present, letters in orange
+    # if appropriate to do so (avoid highlighting a letter more times than 
+    # it appears in the target)
+    for index, pair in enumerate(zip_longest(word, guess)):
+        if (pair[1] and pair[1] in word and letters[pair[1]] > 0):
+            formatting[index] = "orange"
+            letters[pair[1]] = letters[pair[1]] - 1
+        print(letters)
 
     if word == guess:
         output['success'] = True
@@ -256,7 +273,10 @@ def validate(word, guess, number_guesses):
 
     return output
 
+
 def save_result(user, number_guesses, success):
+
+    # updates models (e.g. after a game has been completed)
 
     user_statistics = Statistics.objects.get(user=user)
     challenge = user_statistics.next_challenge

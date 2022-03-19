@@ -64,7 +64,7 @@ function display(response) {
         if (valid) {
             update_game_grid(response);
         } else {
-            alert("That's not a word! Please try again.");
+            alert("Sorry, that word isn't in my dictionary! Please try again.");
         }
     }  
 }
