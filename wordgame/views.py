@@ -127,12 +127,11 @@ def get_leader_board(request):
 
 
 def game(request):
-    
+
     # if not logged in the challenge given is always the same example
     if not request.user.is_authenticated:
         challenge = Challenge.objects.all()[0]
         context_dict = {'challenge': challenge, 'name': 'Anonymous User'}
-        return render(request, 'wordgame/game.html', context=context_dict)
         
     # user logged in so their next challenge is presented
     else:
@@ -140,7 +139,18 @@ def game(request):
         user_statistics = Statistics.objects.get(user=user)
         challenge = user_statistics.next_challenge
         context_dict = {'challenge': challenge}
-        return render(request, 'wordgame/game.html', context=context_dict)
+
+    # retain value of number_guesses cookie if reloading the same challenge, 
+    # otherwise reset
+    if not request.session.get('challenge'):
+        request.session['challenge'] = challenge.id
+    else:
+        if challenge.id != request.session.get('challenge'):
+            request.session['challenge'] = challenge.id
+            request.session['number_guesses'] = 0
+
+    return render(request, 'wordgame/game.html', context=context_dict)
+
 
 
 class UserProfileView(LoginRequiredMixin, UpdateView):
@@ -186,8 +196,13 @@ class CheckGuessView(View):
         # extract information from request
         id = request.POST['word_id']
         guess = request.POST['guess']
-        number_guesses = int(request.POST['number_guesses'])
-
+       
+        # get current number of guesses from session COOKIE
+        if not request.session.get('number_guesses'):
+            request.session['number_guesses'] = 0
+        
+        number_guesses = request.session.get('number_guesses')
+            
         # look up word from its ID
         word = Challenge.objects.filter(id=id)[0].word
 
@@ -196,23 +211,28 @@ class CheckGuessView(View):
         guess = re.sub(r'[^A-Z]', '', guess.upper())
 
         # compare guess to target word
-        output = validate(word, guess, number_guesses)
+        output = validate(request, word, guess, number_guesses)
+
+        number_guesses = request.session.get('number_guesses')
 
         # save result to database if game finished (and player is logged in)
         if output['game_finished']:
             user = request.user
             if user.is_authenticated:
+                
                 save_result(user, number_guesses, output['success'])
+            request.session['number_guesses'] = 0
 
         if request.user.is_authenticated: 
             output['logged_in'] = 1
         else:
             output['logged_in'] = 0
+        output['number_guesses'] = number_guesses
 
         return JsonResponse(output)
 
 
-def validate(word, guess, number_guesses):
+def validate(request, word, guess, number_guesses):
 
     # create dictionary for output
     formatting = []
@@ -239,6 +259,7 @@ def validate(word, guess, number_guesses):
         return output
 
     output['valid_word'] = True
+    request.session['number_guesses'] += 1
 
     # count the number of appearances of each letter in the target word
     letters = {}
@@ -251,7 +272,6 @@ def validate(word, guess, number_guesses):
 
     # first, highlight correctly placed letters in green
     for index, pair in enumerate(zip_longest(word, guess)):
-        print(index)
         if pair[0] == pair[1]:
             formatting[index] = "green"
             letters[pair[1]] = letters[pair[1]] - 1
@@ -263,7 +283,6 @@ def validate(word, guess, number_guesses):
         if (pair[1] and pair[1] in word and letters[pair[1]] > 0):
             formatting[index] = "orange"
             letters[pair[1]] = letters[pair[1]] - 1
-        print(letters)
 
     if word == guess:
         output['success'] = True

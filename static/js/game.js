@@ -2,8 +2,7 @@
 
 $(document).ready(function() {
 
-    // reset guesses to 0 for new word
-    $('#number_guesses').val(0)
+
 
 
     $('#show_hint').click(
@@ -45,6 +44,7 @@ function display(response) {
     var logged_in = parseInt(response.logged_in);
     var game_finished = response.game_finished;
     var guess = response.guess;
+    var number_guesses = response.number_guesses;
 
     var game_end_message = "";    
 
@@ -52,7 +52,7 @@ function display(response) {
     if (game_finished) {
         if (valid) {
             update_game_grid(response);
-            game_end_message += "Well done, you got " + guess + " in " +  $('#number_guesses').attr('value') + " guess(es).";
+            game_end_message += "Well done, you got " + guess + " in " +  number_guesses + " guess(es).";
         } else {
             update_game_grid(response);
             game_end_message += "Oh dear. You ran out of guesses. The word was: " + guess + ".";
@@ -82,12 +82,7 @@ function update_game_grid(response) {
     // get information from response
     var guess = response.guess;
     var formatting = response.formatting;
-    var number_guesses = parseInt($('#number_guesses').attr('value'))
-
-    // update the number of guesses. (TODO - use a COOKIE for this instead)
-    $('#number_guesses').val(number_guesses + 1)
-
-    
+   
 
     var messageAppend = '<div class="gamerow">';
     for (i = 0; i < guess.length; i++) {
