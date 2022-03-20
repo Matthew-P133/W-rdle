@@ -238,7 +238,7 @@ def validate(request, word, guess, number_guesses):
     formatting = []
     output = {'guess': guess, 'formatting': formatting}
 
-    for i in range(len(guess)):
+    for i in range(12):
         formatting.append("grey")
 
     # check that not exceeded maximum number of guesses
@@ -280,13 +280,14 @@ def validate(request, word, guess, number_guesses):
     # if appropriate to do so (avoid highlighting a letter more times than 
     # it appears in the target)
     for index, pair in enumerate(zip_longest(word, guess)):
-        if (pair[1] and pair[1] in word and letters[pair[1]] > 0):
-            formatting[index] = "orange"
-            letters[pair[1]] = letters[pair[1]] - 1
+        if formatting[index] == "grey":
+            if (pair[1] and pair[1] in word and letters[pair[1]] > 0):
+                formatting[index] = "orange"
+                letters[pair[1]] = letters[pair[1]] - 1
 
     if word == guess:
         output['success'] = True
-        output['game_finished'] = True;
+        output['game_finished'] = True
     else:
         output['success'] = False
 
@@ -301,6 +302,11 @@ def save_result(user, number_guesses, success):
     challenge = user_statistics.next_challenge
     challenge_ID = challenge.id
 
+    game = Game.objects.get_or_create(user=user, challenge=challenge)[0]
+    game.successful = success
+    game.guesses = number_guesses
+    game.save()
+
 
     if (success):
         user_statistics.games_won += 1
@@ -313,10 +319,7 @@ def save_result(user, number_guesses, success):
     user_statistics.next_challenge = Challenge.objects.get(id=challenge_ID+1)
     user_statistics.save()
 
-    game = Game.objects.get_or_create(user=user, challenge=challenge)[0]
-    game.successful = success
-    game.guesses = number_guesses
-    game.save()
+    
 
     challenge.timesPlayed = challenge.timesPlayed + 1
     if (success):
