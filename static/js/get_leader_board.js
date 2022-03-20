@@ -1,7 +1,7 @@
-const url = 'http://127.0.0.1:8000/wordgame/get-leader-board/?sort=-score'
+const url = '/wordgame/get-leader-board/?sort=-score'
 
 const renderTable = async (sort = 'score', index = 0) => {
-    const baseUrl = 'http://127.0.0.1:8000/wordgame/get-leader-board/?sort=-'
+    const baseUrl = '/wordgame/get-leader-board/?sort=-'
     const response = await fetch(`${baseUrl}${sort}`, {method: "GET"})
     const defaultData = await response.json()
     // let defaultData
