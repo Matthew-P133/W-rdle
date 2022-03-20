@@ -1,29 +1,23 @@
 {% extends 'wordgame/base.html' %}
 {% load crispy_forms_tags %}
-
-{% block head_block %}
-    <style>
-    div > a {
-        color: black;
-    }
-    </style>
-{% endblock %}
+{% load staticfiles %}  
 
 {% block title_block %}
 UserProfile
 {% endblock %}
 
 {% block body_block %}
-    <div class="container" style="margin-top: 50px">
+<link rel="stylesheet" href="{% static 'style/user_profile.css' %}" />
+    <div class="container">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" style="color: black" id="home-tab" data-toggle="tab" href="#admin" role="tab" aria-controls="home"
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#admin" role="tab" aria-controls="home"
                aria-selected="true">
                 <h6>User center</h6>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="profile-tab" style="color: black" data-toggle="tab" href="#edit" role="tab" aria-controls="profile"
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#edit" role="tab" aria-controls="profile"
                aria-selected="false">
                 <h6>User statistics</h6>
             </a>
@@ -33,21 +27,21 @@ UserProfile
         <div class="tab-pane fade show active" id="admin" role="tabpanel" aria-labelledby="home-tab">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <div style="display: flex">
-                        <div style="width: 60%">
+                    <div class="flex_div">
+                        <div class="form_out">
                             <form action="" method="post" enctype="multipart/form-data"> {% csrf_token %}
                                 {{ form|crispy }}
                                 <button class="btn btn-primary">Update</button>
                             </form>
                         </div>
-                        <div style="width: 5%">
+                        <div class="empty_div">
 
                         </div>
-                        <div style="width: 35%;font-size: 18px;font-weight: bold">
+                        <div class="avatar_out">
                             Avatar
                             <hr>
                             {% if request.user.userprofile.photo %}
-                                <img src="{{ request.user.userprofile.photo.url }}" alt="" style="max-width: 100%">
+                                <img src="{{ request.user.userprofile.photo.url }}" alt="" class="photo_img">
                             {% endif %}
                         </div>
                     </div>

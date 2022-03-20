@@ -1,0 +1,33 @@
+.countainer{
+    margin-top:50px;
+}
+
+.nav-link{
+    color:black;
+}
+
+div > a {
+    color: black;
+}
+
+.flex_div{
+    display:flex;
+}
+
+.form_out{
+    width:60%;
+}
+
+.empty_div{
+    width:5%;
+}
+
+.avatar_out{
+    width: 35%;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.photo_img{
+    max-width:100%;
+}
