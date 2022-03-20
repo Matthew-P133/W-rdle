@@ -3,15 +3,13 @@
 $(document).ready(function() {
 
 
-
-
+    // displays word if the user gets stuck
     $('#show_hint').click(
         function() {
             $('#cheat').css('display', 'block')
         }
     );
 
-    
     // when user presses check guess
     $('form').submit(function(event) {
         
@@ -29,7 +27,6 @@ $(document).ready(function() {
             data: form.serialize(),
             dataType: 'json',
             success: function(response) {
-                console.log(response);
                 display(response);
             }
         })
@@ -99,6 +96,6 @@ function update_game_grid(response) {
     // update display
     $('.gamegrid#game').append(messageAppend);
 
-    // clear form ready for new guess
+    // clear form ready for a new guess
     $('#guess').val("");
 }

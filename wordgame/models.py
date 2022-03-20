@@ -5,9 +5,6 @@ from django.contrib.auth.models import User
 from django.db.models import Avg
 
 
-# Create your models here.
-
-
 class UserProfile(models.Model):
     SEX_CHOICES = (
         (0, 'male'),
@@ -22,6 +19,7 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+# represents a given challenge (the target word and statistics about how many times it has been guessed)
 class Challenge(models.Model):
 
     id = models.AutoField(unique=True, primary_key=True)
@@ -36,7 +34,7 @@ class Challenge(models.Model):
         self.timesPlayed = self.successes + self.failures
         super().save(*args, **kwargs) 
 
-
+# the statistics associated with a given user
 class Statistics(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
     score = models.IntegerField(default=0)
@@ -72,13 +70,12 @@ class Statistics(models.Model):
         super().save(*args, **kwargs) 
 
 
+# stores information about a given challenge played by a given user
 class Game(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE)
     guesses = models.IntegerField(default=0)
     successful = models.BooleanField(default=False)
-
-    # user and challengeID make up the composite primary key (neither are unique alone)
 
     def __str__(self):
         return f'Game #{self.challenge.id} played by {self.user.username}'
@@ -89,6 +86,9 @@ class Dictionary(models.Model):
 
 
 def calculate_average_guesses(user):
+
+    # calculates the average number of guesses a user has made per word
+
     average_guesses = Game.objects.filter(user=user, successful=True).aggregate(Avg('guesses'))
     if average_guesses['guesses__avg']:
         print(average_guesses['guesses__avg'])
