@@ -1,3 +1,6 @@
+# tests included are those in the Tango with Django book (adapted for this app)
+# plus additional tests for the functionality specific to this app
+
 import os
 import re
 import importlib
