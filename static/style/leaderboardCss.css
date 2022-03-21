@@ -62,9 +62,8 @@ html{
 }
 
 
-.text-primary {
-    font-size: "1.9rem";
-    color: rgb(8, 157, 184);
+.username {
+    font-size: 30px;
 }
 
 .card-title{
