@@ -506,8 +506,12 @@ class leaderboardPageTests(TestCase):
     We check whether the view exists, the mapping is correct, and the response is correct.
     """
     def setUp(self):
+        self.project_base_dir = os.getcwd()
+        self.templates_dir = os.path.join(self.project_base_dir, 'templates')
         self.views_module = importlib.import_module('wordgame.views')
         self.views_module_listing = dir(self.views_module)
+        self.leaderboard_templates_dir = os.path.join(self.templates_dir, 'wordgame')
+        self.leaderboard_response = self.client.get(reverse('wordgame:leaderboard'))
     
     def test_view_exists(self):
         """
@@ -524,7 +528,28 @@ class leaderboardPageTests(TestCase):
         Checks whether the leaderboard view has the correct URL mapping.
         """
         self.assertEquals(reverse('wordgame:leaderboard'), '/wordgame/leaderboard/', f"{FAILURE_HEADER}Your about URL mapping is either missing or mistyped.{FAILURE_FOOTER}")
+    
+    def test_leaderboard_exists(self):
+        """
+        Checks if the leaderboard template exists.
+        """
+        leaderboard_path = os.path.join(self.leaderboard_templates_dir, 'leaderboard.html')
 
+        self.assertTrue(os.path.isfile(leaderboard_path), f"{FAILURE_HEADER}Your leaderboard.html template does not exist, or is in the wrong location.{FAILURE_FOOTER}")
+
+    def test_polished_interface(self):
+        """
+        Checks whether the template file has any "type:" string to make sure there is no css in the leaderboard.html.
+        """
+        required_pattern = f"type:"
+        self.assertFalse(re.search(required_pattern, self.leaderboard_response.content.decode()), f"{FAILURE_HEADER}The leaderboard.html is not polished, you should move CSS out of template files.{FAILURE_FOOTER}")
+
+    def test_html_inherit_from_base(self):
+        """
+        Checks whether the template file has any "type:" string to make sure there is no css in the leaderboard.html.
+        """
+        required_pattern = f'extends \'wordgame/base.html'
+        self.assertFalse(re.search(required_pattern, self.leaderboard_response.content.decode()), f"{FAILURE_HEADER}The leaderboard.html is not inherited from base.html.{FAILURE_FOOTER}")
 class registrationTests(TestCase):
     """
     A series of tests that examine changes to views that take place in Chapter 9.
