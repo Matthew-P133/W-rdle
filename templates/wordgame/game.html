@@ -7,22 +7,22 @@ Game
 {% endblock %}
 
 {% block head_block %}
-    <link rel="stylesheet" href="{% static '/style/game.css' %}">
+<link rel="stylesheet" href="{% static '/style/game.css' %}">
 {% endblock %}
 
 {% block body_block %}
 
 <div class="grid">
-    
+
     <div class="gamegrid" id="game">
     </div>
 
     <div>
         <form id="check form" action="/wordgame/check_guess/">
             {% csrf_token %}
-            Enter guess: 
+            Enter guess:
             <input type="text" id="guess" name="guess" value="GUESS">
-            <!--TODO - make form use a surrogate for word, rather than just the word in a hidden input-->
+            <!--use ID as a surrogate for word, so that the word is not stored in the page-->
             <input type="hidden" id="word_id" name="word_id" value="{{challenge.id}}">
             <input type="submit" value="Check">
         </form>
@@ -37,102 +37,98 @@ Game
 
 <div id="help" class="grid">
     <div id="help-content">
-    <span id="help-close">&times&nbsp&nbsp</span>
-    
+        <span id="help-close">&times&nbsp&nbsp</span>
+
         <br>
         <h4 style="text-align: center">How To Play</h4>
-                
+
         <p>Try to guess the word...</p>
-                
-                <div class="gamegrid">
-                <div class="gamerow">
-                    <div class="tile" style="color: green">P</div>
-                    <div class="tile" style="color: grey">R</div>
-                    <div class="tile" style="color: orange">O</div>
-                    <div class="tile" style="color: grey">G</div>
-                    <div class="tile" style="color: grey">R</div>
-                    <div class="tile" style="color: grey">A</div>
-                    <div class="tile" style="color: grey">M</div>
-                </div>
-                </div>
 
-            
-                <div>We'll let you know if a letter is correct (green), in the wrong position (orange) or incorrect (grey).</div>               
-
-                <div class="gamegrid">
-                <div class="gamerow">
-                    <div class="tile" style="color: grey">J</div>
-                    <div class="tile" style="color: grey">A</div>
-                    <div class="tile" style="color: grey">V</div>
-                    <div class="tile" style="color: grey">A</div>
-                    <div class="tile" style="color: grey">S</div>
-                    <div class="tile" style="color: grey">C</div>
-                    <div class="tile" style="color: grey">R</div>
-                    <div class="tile" style="color: grey">I</div>
-                    <div class="tile" style="color: orange">P</div>
-                    <div class="tile" style="color: orange">T</div>
-
-                </div>
+        <div class="gamegrid">
+            <div class="gamerow">
+                <div class="tile correct">P</div>
+                <div class="tile absent">R</div>
+                <div class="tile present">O</div>
+                <div class="tile absent">G</div>
+                <div class="tile absent">R</div>
+                <div class="tile absent">A</div>
+                <div class="tile absent">M</div>
             </div>
-              
-                Words can be up to 12 letters long.
+        </div>
 
-                <div class="gamegrid">
-                <div class="gamerow">
-                    <div class="tile" style="color: grey">L</div>
-                    <div class="tile" style="color: grey">E</div>
-                    <div class="tile" style="color: green">T</div>
-                    <div class="tile" style="color: grey">T</div>
-                    <div class="tile" style="color: grey">E</div>
-                    <div class="tile" style="color: grey">R</div>
- 
-                </div>
+
+        <div>We'll let you know if a letter is correct (green), in the wrong position (orange) or incorrect (grey).
+        </div>
+
+        <div class="gamegrid">
+            <div class="gamerow">
+                <div class="tile absent">J</div>
+                <div class="tile absent">A</div>
+                <div class="tile absent">V</div>
+                <div class="tile absent">A</div>
+                <div class="tile absent">S</div>
+                <div class="tile absent">C</div>
+                <div class="tile absent">R</div>
+                <div class="tile absent">I</div>
+                <div class="tile present">P</div>
+                <div class="tile present">T</div>
             </div>
+        </div>
 
-                <p>Highlighting also indicates the number of times a letter is present.</p>
+        Words can be up to 12 letters long.
 
-                <div class="gamegrid">
-                <div class="gamerow">
-                    <div class="tile" style="color: green">P</div>
-                    <div class="tile" style="color: green">Y</div>
-                    <div class="tile" style="color: green">T</div>
-                    <div class="tile" style="color: green">H</div>
-                    <div class="tile" style="color: green">O</div>
-                    <div class="tile" style="color: green">N</div>
- 
-                </div>
+        <div class="gamegrid">
+            <div class="gamerow">
+                <div class="tile absent">L</div>
+                <div class="tile absent">E</div>
+                <div class="tile correct">T</div>
+                <div class="tile absent">T</div>
+                <div class="tile absent">E</div>
+                <div class="tile absent">R</div>
             </div>
+        </div>
 
-                Good luck! 
-                <br>
-                <br>
-                If you get stuck, you can always have sneaky look at the word:
+        <p>Highlighting also indicates the number of times a letter is present.</p>
 
-                <br>
-                <br>
-                
-                <div>
-                    <button id="show_hint">Show answer</button><p id="cheat">  {{ challenge.word }}</p>
-                </div>
-                
+        <div class="gamegrid">
+            <div class="gamerow">
+                <div class="tile correct">P</div>
+                <div class="tile correct">Y</div>
+                <div class="tile correct">T</div>
+                <div class="tile correct">H</div>
+                <div class="tile correct">O</div>
+                <div class="tile correct">N</div>
+
             </div>
+        </div>
 
-              
-            </div>
-            
-        
-            
-        
-            
-        
-    
+        Good luck!
+        <br>
+        <br>
+
+        <!--This cheat function would be removed in production-->
+
+        If you get stuck, you can always have sneaky look at the word:
+
+        <br>
+        <br>
+
+        <div>
+            <button id="show_hint">Show answer</button>
+            <p id="cheat"> {{ challenge.word }}</p>
+        </div>
+
+    </div>
+
+
+</div>
 </div>
 
 {% endblock %}
 
 {% block page_scripts %}
-    <script src="{% static "js/game.js" %}" crossorigin="anonymous"></script>
-    <script>
-        window.localStorage.setItem('user', '{{ user }}')
-    </script>
+<script src="{% static " js/game.js" %}" crossorigin="anonymous"></script>
+<script>
+    window.localStorage.setItem('user', '{{ user }}')
+</script>
 {% endblock %}

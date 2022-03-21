@@ -44,3 +44,15 @@
 #cheat {
     display: none;
 }
+
+.correct {
+    color: green;
+}
+
+.present {
+    color: orange;
+}
+
+.absent {
+    color: grey;
+}
