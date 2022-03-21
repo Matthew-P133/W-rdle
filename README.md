@@ -23,8 +23,31 @@ In the interests of expedited testing (and because the game turned out considera
 
 ## Usage
 
-The application is hosted at [tbc] at the time of writing. Alternatively, the application can be deployed as a Django web application.
-   
+The application can be deployed as a Django web application.
+
+First install dependencies. Run:
+
+```
+pip install -r requirements.txt
+```
+
+Next perform database setup and population, and perform unit tests. Run the following from the directory containing manage.py:
+
+```
+python manage.py makemigrations
+python manage.py migrate
+python populate_wordgame.py
+python manage.py test
+```
+
+Finally, run the application on localhost:
+
+```
+python manage.py runserver
+```
+
+The application is hosted at [tbc] at the time of writing.
+
 ## Other notes
 
 This web application was designed and built as part of the Internet Technology course at the University of Glasgow.
