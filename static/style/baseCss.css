@@ -1,6 +1,8 @@
-html{
+html,body{
     overflow-x:hidden;
-    overflow-y:hidden;     
+    overflow-y:hidden;
+    height:100%;
+    width: 100%;     
 }
 
 a{
@@ -123,3 +125,7 @@ a:hover {
     text-decoration: none;
     cursor: pointer;
   } 
+
+  .main-contain{
+      height: 85%;
+  }
