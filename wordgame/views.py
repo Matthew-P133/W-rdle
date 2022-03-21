@@ -63,7 +63,7 @@ def user_login(request):
                         username = 'Anonymous User'
                     else:
                         username = user.username
-                    print('username',username)
+                    #print('username',username)
                     return redirect(reverse('wordgame:game'), {'user': username})
                 else:
                     return render(request, 'wordgame/login.html', {'msg': 'Your wordgame account is disabled.'})
