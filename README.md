@@ -46,7 +46,7 @@ Finally, run the application on localhost:
 python manage.py runserver
 ```
 
-The application is hosted at [tbc] at the time of writing.
+The application is hosted at https://matthewp133.eu.pythonanywhere.com/wordgame/ at the time of writing.
 
 ## Other notes
 
